@@ -1,0 +1,53 @@
+from couchdb import Server
+import json
+
+server = Server()
+
+
+def readFile():
+
+    if 'dataset_life_satisfaction' in server:
+        print('----database lift satisfaction existed----------------')
+    else:
+        db_life_satisfaction = server.create('dataset_life_satisfaction')
+
+        with open('Dataset/SA2_Life_Satisfaction_from_0_to_100__Synthetic_Data__2011.json') as ls:
+            ls_data = json.loads(ls.read())
+
+        for ls_feature in ls_data['features']:
+            fid = ls_feature['id']
+            ls_properties = ls_feature['properties']
+            ls_doc = {'_id': fid, 'properties': ls_properties}
+            db_life_satisfaction.save(ls_doc)
+        print('----------finish life satisfaction------------------')
+
+    if 'dataset_ieo' in server:
+        print('----database ieo existed----------------')
+    else:
+        db_ieo = server.create('dataset_ieo')
+        with open('Dataset/SA2_SEIFA_2011_-_The_Index_of_Education_and_Occupation__IEO_.json') as ieo:
+            ieo_data = json.loads(ieo.read())
+
+        for ieo_feature in ieo_data['features']:
+            ieo_id = ieo_feature['id']
+            ieo_properties = ieo_feature['properties']
+            ieo_doc = {'_id': ieo_id, 'properties': ieo_properties}
+            db_ieo.save(ieo_doc)
+        print('----------finish IEO------------------')
+
+    if 'dataset_self_assessed_health' in server:
+        print('----database self_assessed_health existed----------------')
+    else:
+        db_self_assessed_health = server.create('dataset_self_assessed_health')
+        with open('Dataset/SA2_Self_Assessed_Health_-_Modelled_Estimate.json') as sah:
+            sah_data = json.loads(sah.read())
+
+        for sah_feature in sah_data['features']:
+            sah_id = sah_feature['id']
+            sah_properties = sah_feature['properties']
+            sah_doc = {'_id': sah_id, 'properties': sah_properties}
+            db_self_assessed_health.save(sah_doc)
+        print('----------finish db_self_assessed_health------------------')
+
+
+readFile()
