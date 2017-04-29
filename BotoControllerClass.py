@@ -16,7 +16,7 @@ class BotoController:\
         serverip = None\
     def createDB(self,n):\
         for i in range(n):\
-            r = self.ec2_conn.run_instances('ami-00003b2e',key_name='test_key',instance_type='m2.tiny',\
+            r = self.ec2_conn.run_instances('ami-00003b2e',key_name='test_key',instance_type='m2.small',\
                                             security_groups=['default'],placement = 'melbourne')\
             instance = r.instances[0]\
             v = self.ec2_conn.create_volume('80','melbourne-np')\
