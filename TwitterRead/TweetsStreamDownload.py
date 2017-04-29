@@ -17,6 +17,9 @@ access_token_secret = "GbaChVqU98h8NpUQ1FzfSG2AonWFBVdtalv5d9LNDfUrU"
 consumer_key = "Orgmlwvc3OVi8UtyB1Idk1ArM"
 consumer_secret = "GItv17P5pNOqtf2eRnjpfTTyuveo4LoCHUw4OZz3HJtEOo7i7p"
 
+# Geobox of Melbourne, AU. Source: http://boundingbox.klokantech.com/
+GEOBOX_MEL = [144.5937, -38.4339, 145.5125, -37.5113]
+
 
 class ReaderListener(StreamListener):
 
@@ -27,7 +30,7 @@ class ReaderListener(StreamListener):
             nid = doc["id_str"]
 
             if nid in db:
-                print('--------aleardy have----------------')
+                print('--------already have----------------')
                 return True
             else:
                 ntext = doc['text']
@@ -63,5 +66,4 @@ if __name__ == '__main__':
 
     # This line filter Twitter Streams to capture data by the keywords: '.',
     # almost all tweets
-    stream.filter(track=["Trump", "Donald Trump",
-                         "President Trump"], languages=["en"])
+    stream.filter(locations=GEOBOX_MEL, languages=["en"])

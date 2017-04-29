@@ -7,11 +7,11 @@ from couchdb import Server
 
 server = Server()
 try:
-    db = server['tweets']
+    db_tweets = server['tweets']
 except:
-    db = server.create('tweets')
+    db_tweets = server.create('tweets')
 
-# Var  iables that contains the user credentials to access Twitter API
+# Variables that contains the user credentials to access Twitter API
 access_token = "546643485-WaT1mm4EwJe2RrnxMk5xfNxiUxnvfHc3HQgk6jFO"
 access_token_secret = "GbaChVqU98h8NpUQ1FzfSG2AonWFBVdtalv5d9LNDfUrU"
 consumer_key = "Orgmlwvc3OVi8UtyB1Idk1ArM"
@@ -21,11 +21,15 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
+# Geobox of Melbourne, AU. Source: http://boundingbox.klokantech.com/
+GEOBOX_MEL = [144.5937, -38.4339, 145.5125, -37.5113]
 
 # Put your search term
-searchquery = "Donald Trump"
+# searchquery = "*"
 
-contents = tweepy.Cursor(api.search, q=searchquery, lang="en").items()
+contents = tweepy.Cursor(api.search, q="*",
+                         geocode="-37.9726,145.0531,66km", lang="en").items()
+
 count = 0
 errorCount = 0
 
@@ -53,8 +57,8 @@ while True:
         doc = json.loads(njson)
         nid = doc['id_str']
 
-        if nid in db:
-            print('--------aleardy have----------------')
+        if nid in db_tweets:
+            print('--------already have----------------')
 
         else:
             ntext = doc['text']
@@ -65,7 +69,7 @@ while True:
             ndoc = {'_id': nid, 'text': ntext, 'user': nuser,
                     'coordinates': ncoordinates, 'create_time': ntime,
                     'place': nplace, 'addressed': False}
-            db.save(ndoc)
+            db_tweets.save(ndoc)
             print(nid)
             print('-------------------------------------')
 
