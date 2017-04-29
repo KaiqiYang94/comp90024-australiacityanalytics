@@ -1,0 +1,80 @@
+---
+- hosts: kai
+  vars:
+    http_port: 80
+    max_clients: 200
+  # remote_user: root
+  tasks:
+    - name: Update repositories cache and install "python-pip" package
+      sudo: yes
+      apt:
+        name: python-pip
+        update_cache: yes
+    
+    - name: Remove "pip" package
+      sudo: yes
+      apt:
+        name: python-pip
+        state: absent
+
+    - name: install pip
+      sudo: yes
+      apt: 
+        name: python-pip
+        state: present
+    
+    - name: Update repositories cache and install "couchdb-bin" package
+      sudo: yes
+      apt:
+        name: couchdb-bin
+        update_cache: yes
+
+    - name: Remove "couchdb" package
+      sudo: yes
+      apt:
+        name: couchdb
+        state: absent
+
+    - name: Remove "couchdb-bin" package
+      sudo: yes
+      apt:
+        name: couchdb-bin
+        state: absent
+    
+    - name: Remove "couchdb-common" package
+      sudo: yes
+      apt:
+        name: couchdb-common
+        state: absent
+
+    # sudo apt install couchdb-bin
+    - name: install couchdb-bin
+      sudo: yes
+      apt: 
+        name: couchdb-bin
+        state: present
+
+    - name: install couchdb
+      sudo: yes
+      apt: 
+        name: couchdb
+        state: present
+
+    # sudo apt install upstart
+    - name: install upstart
+      sudo: yes
+      apt:
+        name: upstart
+        state: present
+
+    - name: install yum
+      sudo: yes
+      apt:
+        name: yum
+        state: present
+
+    - name: Update all packages to the latest version
+      sudo: yes
+      apt:
+        upgrade: dist
+...
