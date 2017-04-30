@@ -145,3 +145,7 @@ sudo sv status couchdb
 
 # Copy local files to the cloud 
 # scp -r /Users/KaiqiYang/Documents/Learning/JavaProj/BitBucketPrivateRepo/CloudTestProject/Example/  kaiqi@130.56.253.113:/home/kaiqi/uploadfiles
+
+# To get some id or changes 
+# curl -X GET http://admin:password@127.0.0.1:5984/tweets/_changes?descending=true&limit=1
+
