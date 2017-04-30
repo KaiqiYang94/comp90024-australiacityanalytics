@@ -149,3 +149,11 @@ sudo sv status couchdb
 # To get some id or changes 
 # curl -X GET http://admin:password@127.0.0.1:5984/tweets/_changes?descending=true&limit=1
 
+
+# install pip
+
+# make file system
+
+# back up couch db
+
+# deploy website 
