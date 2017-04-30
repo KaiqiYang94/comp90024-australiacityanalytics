@@ -140,3 +140,8 @@ sudo sv status couchdb
 # curl -X PUT http://admin:password@127.0.0.1:5984/the_test_db/"001" -d '{ " Name " : " Raju " , " age " :" 23 " , " Designation " : " Designer " }'
 
 # curl -X GET http://admin:password@127.0.0.1:5984/the_test_db/001
+
+
+
+# Copy local files to the cloud 
+# scp -r /Users/KaiqiYang/Documents/Learning/JavaProj/BitBucketPrivateRepo/CloudTestProject/Example/  kaiqi@130.56.253.113:/home/kaiqi/uploadfiles
