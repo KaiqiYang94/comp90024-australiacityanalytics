@@ -157,3 +157,5 @@ sudo sv status couchdb
 # back up couch db
 
 # deploy website 
+
+# assign accounts
