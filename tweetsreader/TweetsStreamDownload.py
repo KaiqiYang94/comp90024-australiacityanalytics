@@ -5,7 +5,11 @@ from tweepy import Stream
 from couchdb import Server
 import json
 
-server = Server()
+# for local test
+#server = Server()
+# for run on vm
+server = Server('http://admin:password@127.0.0.1:5984/')
+
 try:
     db = server['tweets']
 except:

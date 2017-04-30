@@ -1,8 +1,10 @@
 from couchdb import Server
 import json
 
-server = Server()
-
+# for local test
+#server = Server()
+# for run on vm
+server = Server('http://admin:password@127.0.0.1:5984/')
 
 def readFile():
 
@@ -11,7 +13,7 @@ def readFile():
     else:
         db_life_satisfaction = server.create('dataset_life_satisfaction')
 
-        with open('Dataset/SA2_Life_Satisfaction_from_0_to_100__Synthetic_Data__2011.json') as ls:
+        with open('./dataset/SA2_Life_Satisfaction_from_0_to_100__Synthetic_Data__2011.json') as ls:
             ls_data = json.loads(ls.read())
 
         for ls_feature in ls_data['features']:
@@ -25,7 +27,7 @@ def readFile():
         print('----database ieo existed----------------')
     else:
         db_ieo = server.create('dataset_ieo')
-        with open('Dataset/SA2_SEIFA_2011_-_The_Index_of_Education_and_Occupation__IEO_.json') as ieo:
+        with open('./dataset/SA2_SEIFA_2011_-_The_Index_of_Education_and_Occupation__IEO_.json') as ieo:
             ieo_data = json.loads(ieo.read())
 
         for ieo_feature in ieo_data['features']:
@@ -39,7 +41,7 @@ def readFile():
         print('----database self_assessed_health existed----------------')
     else:
         db_self_assessed_health = server.create('dataset_self_assessed_health')
-        with open('Dataset/SA2_Self_Assessed_Health_-_Modelled_Estimate.json') as sah:
+        with open('./dataset/SA2_Self_Assessed_Health_-_Modelled_Estimate.json') as sah:
             sah_data = json.loads(sah.read())
 
         for sah_feature in sah_data['features']:
