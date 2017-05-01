@@ -64,7 +64,7 @@ cd apache-couchdb-2.0.0/
 # 		-name couchdb@192.168.199.236
 
 # 	修改配置：COUCHDB_HOME/rel/couchdb/releases/2.0.0/sys.config为：
-
+# [ {lager, [ {error_logger_hwm, 1000}, {error_logger_redirect, true}, {handlers, [ {lager_console_backend, [debug, {lager_default_formatter,[ date, " ", time, " [", severity, "] ",node, " ", pid, " ",message,"\n"]}]}]},{inet_dist_listen_min, 9100},{inet_dist_listen_max, 9200}]}].
 # [
 #     {lager, [
 #         {error_logger_hwm, 1000},
@@ -86,11 +86,7 @@ cd apache-couchdb-2.0.0/
 #     ]}
 # ].
 
-sudo adduser --system \
-        --no-create-home \
-        --shell /bin/bash \
-        --group --gecos \
-        "CouchDB Administrator" couchdb
+sudo adduser --system --no-create-home --shell /bin/bash --group --gecos "CouchDB Administrator" couchdb
 
 sudo cp -R rel/couchdb /home/couchdb
 sudo chown -R couchdb:couchdb /home/couchdb

@@ -8,8 +8,22 @@
     max_clients: 200
   # remote_user: root
   tasks:
+      - debug: var=ansible_all_ipv4_addresses
+      - debug: var=ansible_default_ipv4.address
+      # - debug:
+      #     msg: "{{ item }}"
+      #     when: item == ansible_default_ipv4.address
+      #   with_items:
+      #     - "{{ groups['dbs'] }}"
+
       - name: terminate other jobs
         shell: set -e
+
+      - name: Install the package "curl"
+        sudo: yes
+        apt:
+          name: curl
+          state: present
 
       - name: update packages
         sudo: yes
@@ -17,7 +31,9 @@
 
       - name: install dependencies
         sudo: yes
-        shell: apt-get --no-install-recommends -y install build-essential pkg-config runit erlang libicu-dev libmozjs185-dev libcurl4-openssl-dev
+        shell: >
+          apt-get --no-install-recommends -y install build-essential pkg-config
+          runit erlang libicu-dev libmozjs185-dev libcurl4-openssl-dev
 
       - name: download the couchdb file 
         # shell: wget http://apache-mirror.rbc.ru/pub/apache/couchdb/source/2.0.0/apache-couchdb-2.0.0.tar.gz
@@ -28,87 +44,91 @@
       - name: uncompress the tar
         shell: tar -xvzf apache-couchdb-2.0.0.tar.gz
 
-        # - unarchive:
-        #     src: foo.tgz
-        #     dest: /var/lib/foo
       - name: cd to the directory and install
         shell: cd apache-couchdb-2.0.0 && ./configure && make release
+
+      - name: let all nodes bind to a public address
+        shell: >
+          sed -i 's/;bind_address =.*/bind_address = 0.0.0.0/'
+          apache-couchdb-2.0.0/rel/couchdb/etc/local.ini
+
+      - name: let all nodes have the same username and password
+        shell: >
+          sed -i 's/;admin =.*/admin = password/'
+          apache-couchdb-2.0.0/rel/couchdb/etc/local.ini
+
+      - name: settings in the system configure
+        shell: >
+          sed -i 
+          's/\[\]\./\[ \{lager, \[ \{error_logger_hwm, 1000\}, \{error_logger_redirect, true\}, 
+          \{handlers, \[ \{lager_console_backend, \[debug, \{lager_default_formatter,\[ date, \" \", 
+          time, \" \[\", severity, \"\] \",node, \" \", pid, \" \",message,\"\\n\"\]\}\]\}\]\},
+          \{inet_dist_listen_min, 9100\},\{inet_dist_listen_max, 9200\}\]\}\]./' 
+          apache-couchdb-2.0.0/rel/couchdb/releases/2.0.0/sys.config
+
+      - name: let all nodes have unique names
+        shell: >
+          sed -i 's/-name couchdb@localhost/-name couchdb@{{ ansible_default_ipv4.address }}/'
+          apache-couchdb-2.0.0/rel/couchdb/etc/vm.args
+
+      - name: add users
+        sudo: yes
+        shell: >
+          adduser --system --no-create-home 
+          --shell /bin/bash --group --gecos "CouchDB Administrator" couchdb
+      
+      - name: copy couchdb to home
+        sudo: yes
+        shell: cp -R apache-couchdb-2.0.0/rel/couchdb /home/couchdb
+
+      - name: permissons for the home_couchdb
+        sudo: yes
+        shell: |
+          chown -R couchdb:couchdb /home/couchdb 
+          find /home/couchdb -type d -exec chmod 0770 {} \;
+          sh -c 'chmod 0644 /home/couchdb/etc/*'
+          mkdir /var/log/couchdb
+          chown couchdb:couchdb /var/log/couchdb
+          mkdir /etc/sv/couchdb
+          mkdir /etc/sv/couchdb/log
+
+      - name: run 
+        shell:
+          cmd: |
+            cat > apache-couchdb-2.0.0/run << EOF
+            #!/bin/sh
+            export HOME=/home/couchdb
+            exec 2>&1
+            exec chpst -u couchdb /home/couchdb/bin/couchdb
+            EOF
+
+      - name: log_run
+        shell:
+          cmd: |
+            cat > apache-couchdb-2.0.0/log_run << EOF
+            #!/bin/sh
+            exec svlogd -tt /var/log/couchdb
+            EOF
+
+      - name: rest
+        sudo: yes
+        shell: |
+          mv apache-couchdb-2.0.0/run /etc/sv/couchdb/run
+          mv apache-couchdb-2.0.0/log_run /etc/sv/couchdb/log/run
+
+          chmod u+x /etc/sv/couchdb/run
+          chmod u+x /etc/sv/couchdb/log/run
+
+          ln -s /etc/sv/couchdb/ /etc/service/couchdb
+
+          sleep 5
+          sudo sv status couchdb
         # command: chdir=apache-couchdb-2.0.0/
 
-      # - name: install couchdb
-      #   shell: ./configure && make release
-
-    # - name: Update all packages to the latest version
-    #   sudo: yes
-    #   shell: deploycouchdb.sh >> scriptOutput.txt
-
-    # - name: Update repositories cache and install "python-pip" package
-    #   sudo: yes
-    #   apt:
-    #     name: python-pip
-    #     update_cache: yes
-    
-    # - name: Remove "pip" package
-    #   sudo: yes
-    #   apt:
-    #     name: python-pip
-    #     state: absent
-
-    # - name: install pip
-    #   sudo: yes
-    #   apt: 
-    #     name: python-pip
-    #     state: present
-    
-    # - name: Update repositories cache and install "couchdb-bin" package
-    #   sudo: yes
-    #   apt:
-    #     name: couchdb-bin
-    #     update_cache: yes
-
-    # - name: Remove "couchdb" package
-    #   sudo: yes
-    #   apt:
-    #     name: couchdb
-    #     state: absent
-
-    # - name: Remove "couchdb-bin" package
-    #   sudo: yes
-    #   apt:
-    #     name: couchdb-bin
-    #     state: absent
-    
-    # - name: Remove "couchdb-common" package
-    #   sudo: yes
-    #   apt:
-    #     name: couchdb-common
-    #     state: absent
-
-    # # sudo apt install couchdb-bin
-    # - name: install couchdb-bin
-    #   sudo: yes
-    #   apt: 
-    #     name: couchdb-bin
-    #     state: present
-
-    # - name: install couchdb
-    #   sudo: yes
-    #   apt: 
-    #     name: couchdb
-    #     state: present
-
-    # # sudo apt install upstart
-    # - name: install upstart
-    #   sudo: yes
-    #   apt:
-    #     name: upstart
-    #     state: present
-
-    # - name: install yum
-    #   sudo: yes
-    #   apt:
-    #     name: yum
-    #     state: present
-
+        # {% for host in groups['dbs'] %}
+        #   {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
+        # {% endfor %}
 
 ...
+
+
