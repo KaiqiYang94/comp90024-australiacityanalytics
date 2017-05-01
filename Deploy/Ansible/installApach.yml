@@ -1,5 +1,5 @@
-# ansible-playbook /Users/KaiqiYang/Documents/Learning/JavaProj/BitBucketPrivateRepo/CloudTestProject/apache.yaml -i /Users/KaiqiYang/Documents/Learning/JavaProj/BitBucketPrivateRepo/CloudTestProject/ansibleTest.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
-
+# To execute :
+# ansible-playbook installApach.yml  -i inventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
 
 ---
 - hosts: dbs
@@ -12,19 +12,32 @@
         shell: set -e
 
       - name: update packages
-        shell: sudo apt-get update || true
+        sudo: yes
+        shell: apt-get update || true
 
       - name: install dependencies
-        shell: sudo apt-get --no-install-recommends -y install build-essential pkg-config runit erlang libicu-dev libmozjs185-dev libcurl4-openssl-dev
+        sudo: yes
+        shell: apt-get --no-install-recommends -y install build-essential pkg-config runit erlang libicu-dev libmozjs185-dev libcurl4-openssl-dev
 
       - name: download the couchdb file 
-        shell: wget http://apache-mirror.rbc.ru/pub/apache/couchdb/source/2.0.0/apache-couchdb-2.0.0.tar.gz
+        # shell: wget http://apache-mirror.rbc.ru/pub/apache/couchdb/source/2.0.0/apache-couchdb-2.0.0.tar.gz
+        get_url:
+          url: http://apache-mirror.rbc.ru/pub/apache/couchdb/source/2.0.0/apache-couchdb-2.0.0.tar.gz
+          dest: ./
 
       - name: uncompress the tar
         shell: tar -xvzf apache-couchdb-2.0.0.tar.gz
 
-      - name: cd to the directory
-        shell: cd apache-couchdb-2.0.0/
+        # - unarchive:
+        #     src: foo.tgz
+        #     dest: /var/lib/foo
+      - name: cd to the directory and install
+        shell: cd apache-couchdb-2.0.0 && ./configure && make release
+        # command: chdir=apache-couchdb-2.0.0/
+
+      # - name: install couchdb
+      #   shell: ./configure && make release
+
     # - name: Update all packages to the latest version
     #   sudo: yes
     #   shell: deploycouchdb.sh >> scriptOutput.txt
