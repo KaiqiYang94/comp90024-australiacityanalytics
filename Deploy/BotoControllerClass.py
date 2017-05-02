@@ -89,14 +89,17 @@ class BotoController:
                 spark.append(ip)
         f.write('[database]\n')
         for e in database:
+            f.write('ubuntu@')
             f.write(e)
             f.write('\n')
         f.write('[server]\n')
         for e in server:
+            f.write('ubuntu@')
             f.write(e)
             f.write('\n')
         f.write('[spark]\n')
         for e in spark:
+            f.write('ubuntu@')
             f.write(e)
             f.write('\n')
         f.close()
