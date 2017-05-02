@@ -17,6 +17,7 @@ SERVER = Server('http://127.0.0.1:5984')
 if (len(SERVER) == 0):
     SERVER.create('docs')
 
+
 def index(request):
     docs = SERVER['docs']
     # cnt = len(docs)
@@ -25,26 +26,25 @@ def index(request):
     # html = "<html><body>there are %s dbs in the data base </body></html>" % cnt
     # return HttpResponse(html)
 
-
     if request.method == "POST":
-        title = request.POST['title'].replace(' ','')
-        docs[title] = {'title':title,'text':""}
+        title = request.POST['title'].replace(' ', '')
+        docs[title] = {'title': title, 'text': ""}
         # html = "<html><body>there are %s dbs in the data base </body></html>" % title
         # return HttpResponse(html)
         return HttpResponseRedirect(u"/doc/%s/" % title)
     # html = "<html><body>there are %s dbs in the data base </body></html>" % docs
     # return HttpResponse(html)
-    return render(request, 'Example/index.html',{'rows':docs})
+    return render(request, 'Example/index.html', {'rows': docs})
 
 
-def detail(request,id):
+def detail(request, id):
     docs = SERVER['docs']
     try:
         doc = docs[id]
     except ResourceNotFound:
-        raise Http404        
-    if request.method =="POST":
-        doc['title'] = request.POST['title'].replace(' ','')
+        raise Http404
+    if request.method == "POST":
+        doc['title'] = request.POST['title'].replace(' ', '')
         doc['text'] = request.POST['text']
         docs[id] = doc
-    return render_to_response('Example/detail.html',{'row':doc})
+    return render_to_response('Example/detail.html', {'row': doc})
