@@ -59,6 +59,7 @@ while True:
 
         njson = json.dumps(content._json, ensure_ascii=False)
         doc = json.loads(njson)
+
         nid = doc['id_str']
 
         if nid in db_tweets:
@@ -70,9 +71,11 @@ while True:
             nuser = doc['user']
             ntime = doc['created_at']
             nplace = doc['place']
+            nentities = doc['entities']
             ndoc = {'_id': nid, 'text': ntext, 'user': nuser,
                     'coordinates': ncoordinates, 'create_time': ntime,
-                    'place': nplace, 'addressed': False}
+                    'place': nplace, 'entities': nentities,
+                    'addressed': False}
             db_tweets.save(ndoc)
             print(nid)
             print('-------------------------------------')

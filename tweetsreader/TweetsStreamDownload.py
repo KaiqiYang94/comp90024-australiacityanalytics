@@ -6,9 +6,9 @@ from couchdb import Server
 import json
 
 # for local test
-#server = Server()
-# for run on vm
 server = Server()
+# for run on vm
+#server = Server('http://admin:password@127.0.0.1:5984/')
 
 try:
     db = server['tweets']
@@ -42,9 +42,11 @@ class ReaderListener(StreamListener):
                 nuser = doc['user']
                 ntime = doc['created_at']
                 nplace = doc['place']
+                nentities = doc['entities']
                 ndoc = {'_id': nid, 'text': ntext, 'user': nuser,
                         'coordinates': ncoordinates, 'create_time': ntime,
-                        'place': nplace, 'addressed': False}
+                        'place': nplace, 'entities': nentities,
+                        'addressed': False}
                 db.save(ndoc)
                 print(nid)
                 print('-------------------------------------')
