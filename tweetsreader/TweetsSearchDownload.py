@@ -6,9 +6,10 @@ import json
 from couchdb import Server
 
 # for local test
-#server = Server()
+server = Server()
 # for run on vm
-server = Server('http://admin:password@127.0.0.1:5984/')
+#server = Server('http://admin:password@127.0.0.1:5984/')
+
 try:
     db_tweets = server['tweets']
 except:
@@ -69,9 +70,11 @@ while True:
             nuser = doc['user']
             ntime = doc['created_at']
             nplace = doc['place']
+            nentities = doc['entities']
             ndoc = {'_id': nid, 'text': ntext, 'user': nuser,
                     'coordinates': ncoordinates, 'create_time': ntime,
-                    'place': nplace, 'addressed': False}
+                    'place': nplace, 'entities': nentities,
+                    'addressed': False}
             db_tweets.save(ndoc)
             print(nid)
             print('-------------------------------------')
