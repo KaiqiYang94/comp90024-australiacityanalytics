@@ -2,7 +2,7 @@
 # ansible-playbook installApach.yml  -i inventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
 
 ---
-- hosts: dbs
+- hosts: dbs:server
   vars:
     http_port: 80
     max_clients: 200

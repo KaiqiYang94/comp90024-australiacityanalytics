@@ -160,7 +160,7 @@ sudo sv status couchdb
 # 这表示集群搭建成功。或如果在192.168.199.236上的couchdb中添加一个数据库表，如果能在192.168.199.189上的couchdb中看到，表示安装成功。
 
 
-# curl -X PUT http://127.0.0.1:5984/my_database/"001" -d '{ " Name " : " Raju " , " age " :" 23 " , " Designation " : " Designer " }'
+# curl -X PUT http://admin:password@127.0.0.1:5984/my_database/"001" -d '{ " Name " : " Raju " , " age " :" 23 " , " Designation " : " Designer " }'
 
 # curl -X PUT http://admin:password@127.0.0.1:5984/the_test_db/"001" -d '{ " Name " : " Raju " , " age " :" 23 " , " Designation " : " Designer " }'
 
