@@ -1,0 +1,27 @@
+---
+- hosts: kai
+  gather_facts: no
+  tasks:
+    - shell: ps -eo pcpu,user,args | sort -r -k1 | head -n5
+      register: ps
+
+    - debug: var=ps.stdout_lines
+
+# - hosts: kai
+#   strategy: debug
+#   gather_facts: no
+#   vars:
+#     var1: value1
+#   tasks:
+#     - name: wrong variable
+#       ping: data={{ wrong_var }}
+
+# - hosts: kai
+#   strategy: debug
+#   #sudo: yes
+#   tasks:
+#     - name: ping all the server
+#       command: /bin/echo hello
+#       register: output
+#     - debug:  var=output.stdout_lines
+...
