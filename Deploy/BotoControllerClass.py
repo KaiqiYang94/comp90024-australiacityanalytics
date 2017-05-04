@@ -8,7 +8,7 @@ class BotoController:
                                          is_secure=True,region=self.region, port=8773, path='/services/Cloud',
                                          validate_certs=False)
     def createDB(self,n,key,sGroup): #create database node with number of nodes and the key used
-        for i in range(n):
+        for i in range(int(n)):
             r = self.ec2_conn.run_instances('ami-00003b2e',key_name=key,instance_type='m2.small',
                                             security_groups=sGroup,placement = 'melbourne-np')
             instance = r.instances[0]
@@ -35,8 +35,8 @@ class BotoController:
         instance.add_tag(key,name)
 
     def createServer(self,key,sGroup): #create server node with key
-        r = self.ec2_conn.run_instances('ami-00003b2e',key_name=key,instance_type='m2.small',
-                                            security_groups=sGroup,placement='melbourne')
+        r = self.ec2_conn.run_instances('ami-00003b2e',key_name=key,instance_type='m2.large',
+                                            security_groups=sGroup,placement='melbourne-np')
         self.addTag(r.instances[0],'Name','Server')
         self.addTag(r.instances[0],'Type','server')
     def createSpark(self,key,sGroup): #create server node with key
@@ -70,7 +70,7 @@ class BotoController:
             self.ec2_conn.delete_snapshot(e.id)
             print 'Snapshot',e.id,'is deleted.'
     def exportInventoryFile(self): #create inventory file for ansible
-        f = file('ansibleinventory.ini','w')
+        f = file('ansibleinventory.yaml','w')
         r = self.ec2_conn.get_all_instances()
         database = []
         server = []
@@ -87,7 +87,7 @@ class BotoController:
                 server.append(ip)
             elif typename == 'spark':
                 spark.append(ip)
-        f.write('[database]\n')
+        f.write('[dbs]\n')
         for e in database:
             f.write('ubuntu@')
             f.write(e)
