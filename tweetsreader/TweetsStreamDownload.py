@@ -6,9 +6,9 @@ from couchdb import Server
 import json
 
 # for local test
-server = Server()
+# server = Server()
 # for run on vm
-#server = Server('http://admin:password@127.0.0.1:5984/')
+server = Server('http://admin:password@127.0.0.1:5984/')
 
 try:
     db = server['tweets']
