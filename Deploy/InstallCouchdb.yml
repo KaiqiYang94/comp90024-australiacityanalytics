@@ -1,20 +1,13 @@
 # To execute :
-# ansible-playbook installApach.yml  -i inventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
-
+# ansible-playbook InstallCouchdb.yml  -i ansibleinventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
 ---
 - hosts: dbs:server
   vars:
     http_port: 80
     max_clients: 200
-  # remote_user: root
   tasks:
       - debug: var=ansible_all_ipv4_addresses
       - debug: var=ansible_default_ipv4.address
-      # - debug:
-      #     msg: "{{ item }}"
-      #     when: item == ansible_default_ipv4.address
-      #   with_items:
-      #     - "{{ groups['dbs'] }}"
 
       - name: terminate other jobs
         shell: set -e
@@ -24,6 +17,17 @@
         apt:
           name: curl
           state: present
+
+      - name: Install the package "npm"
+        ignore_errors: True
+        sudo: yes
+        apt:
+          name: npm
+          state: present
+
+      - name: Install em2
+        sudo: yes
+        shell: npm install pm2 -g
 
       - name: update packages
         sudo: yes
@@ -123,11 +127,21 @@
 
           sleep 5
           sudo sv status couchdb
-        # command: chdir=apache-couchdb-2.0.0/
+        
+      - name: Install the package "git"
+        sudo: yes
+        apt:
+          name: git
+          state: present
 
-        # {% for host in groups['dbs'] %}
-        #   {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
-        # {% endfor %}
+      - name: Get the source code from git
+        shell: git clone https://kaiqiypublic:kaiqiypublicpw@bitbucket.org/xingh1/comp90024-australiacityanalytics.git
+
+
+      - name: Edit security settings
+        shell: sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+
 
 ...
 

@@ -1,6 +1,5 @@
 # To execute :
 # ansible-playbook installApach.yml  -i inventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
-# ansible-playbook FormCluster.yml  -i inventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
 ---
 - hosts: server
   vars:
@@ -13,28 +12,8 @@
       - name: enable clustering
         shell: >
           curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "enable_cluster", "bind_address":"0.0.0.0", "username": "admin", "password":"password", "port": 5984, "remote_node": "{{ item.split('@')[1] }}", "remote_current_user": "admin", "remote_current_password": "password" }'
-      #     # curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "add_node", "host":"{{ item.split('@')[1] }}", "port": "5984", "username": "admin", "password":"password"}' > output.txt
-      #     # curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "enable_cluster", "bind_address":"0.0.0.0", "username": "admin", "password":"password", "port": 5984, "remote_node": "115.146.92.175", "remote_current_user": "admin", "remote_current_password": "password" }' > output.txt
-      #     curl -X PUT "http://admin:password@127.0.0.1:5986/_nodes/couchdb@{{ item.split('@')[1] }}" -d {}
         with_items: 
           - "{{ groups['dbs'] }}"
-
-
-      # - name: enable nodes
-      #   uri:
-      #     url: http://admin:password@127.0.0.1:5986/_cluster_setup
-      #     method: POST
-      #     user: admin
-      #     password: password
-      #     body: "{'action': 'enable_cluster', 'bind_address':'0.0.0.0', 
-      #       'username': 'admin', 'password':'password', 'port': 5984, 
-      #       'remote_node':'{{ item.split('@')[1] }}', 
-      #       'remote_current_user': 'admin', 'remote_current_password': 'password' }"
-      #     body_format: json
-      #     headers:
-      #       Content-Type: "application/json"
-      #   with_items: 
-      #     - "{{ groups['dbs'] }}"
 
       - name: add nodes
         uri:
@@ -55,14 +34,6 @@
       - name: finish clustering
         shell: |
           curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "finish_cluster"}'  > output.txt
-
-
-
-        # command: chdir=apache-couchdb-2.0.0/
-
-        # {% for host in groups['dbs'] %}
-        #   {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
-        # {% endfor %}
 
 ...
 
