@@ -1,2 +1,2 @@
 python DatasetRead.py
-python TweetsSearchDownload-Trump.py
+pm2 start TweetsSearchDownload-Trump.py

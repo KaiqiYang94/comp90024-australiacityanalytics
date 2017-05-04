@@ -1,2 +1,2 @@
 python DatasetRead.py
-python TweetsStreamDownload.py
+pm2 start TweetsStreamDownload.py

@@ -1,3 +1,3 @@
 python DatasetRead.py
 python BigTwitterReader.py
-python TweetsSearchDownload.py
+pm2 start TweetsSearchDownload.py

@@ -2,7 +2,7 @@ import paramiko
 from couchdb import Server
 import json
 
-server = Server('http://admin:xinghu@127.0.0.1:5984/')
+server = Server('http://admin:password@127.0.0.1:5984/')
 try:
     db_tweets = server['tweets']
 except:
