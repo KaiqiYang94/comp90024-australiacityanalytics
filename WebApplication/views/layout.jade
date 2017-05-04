@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/cover.css')
+    link(rel='stylesheet', href='/stylesheets/sce.css')
+
+    script(src='/javascripts/bootstrap.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.js')
+
+  body
+    .site-wrapper
+      .site-wrapper-inner
+        .cover-container
+          .masthead.clearfix
+            .inner
+              h3.masthead-brand Australia City Analytics
+              nav
+                ul.nav.masthead-nav
+                  li.active
+                    a(href='/') Home
+                  li
+                    a(href='/Scenarios') Scenarios
+                  li
+                    a(href='/MapDemo') Map Demonstration
+          .inner.cover
+            block content
