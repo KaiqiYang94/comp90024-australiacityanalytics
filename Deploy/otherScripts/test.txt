@@ -35,3 +35,8 @@ admin = password
 # no communication between nodes running with the -sname flag and those running
 # with the -name flag.
 -name couchdb@
+
+
+PasswordAuthentication yes ==>
+
+PubkeyAuthentication yes
