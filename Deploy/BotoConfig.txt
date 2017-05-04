@@ -5,5 +5,5 @@ dbKey:test_key
 serverKey:test_key
 sparkKey:test_key
 dbSecurityGroups:default,ssh
-serverSecurityGroups:default,ssh
+serverSecurityGroups:default,ssh,http
 sparkSecurityGroups:default,ssh
