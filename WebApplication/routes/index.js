@@ -13,7 +13,7 @@ router.get('/scenarios', function(req, res, next) {
 });
 
 router.get('/mapdemo', function(req, res, next) {
-  res.render('mapdemo', { });
+  res.render('mapdemo', {title: 'IEO' });
 });
 
 module.exports = router;
