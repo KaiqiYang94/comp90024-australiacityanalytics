@@ -2,14 +2,14 @@ import paramiko
 from couchdb import Server
 import json
 
-server = Server('http://admin:password@127.0.0.1:5984/')
+server = Server('http://admin:xinghu@127.0.0.1:5984/')
 try:
     db_tweets = server['tweets']
 except:
     db_tweets = server.create('tweets')
 
-username = " "
-password = " "
+username = "ziyuanw"
+password = "19910816"
 
 ssh = paramiko.SSHClient()
 ssh.load_system_host_keys()
