@@ -1,16 +1,20 @@
 
 <% include ./layout %>
-<h1 style="color:#4099AF;"></h1>
-<p>This is the results of <span class="twitter-text"></span></p>
-<div id="map"></div>
+
+
+<div id="googleMap" style="width:100%;height:400px;"></div>
+
 <script>
-  var map;
-  function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8
-      });
-  }
+function myMap() {
+var mapProp= {
+          center: {lat: -37.8141, lng: 144.9633},
+          zoom: 11,
+          mapTypeId: google.maps.MapTypeId.SATELLITE
+};
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFTcYUCRQyw9P2b-h-_oFyO4Pgr4VOB3E&amp;callback=initMap" async="" defer=""></script>
-<p>This is the end</p>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFTcYUCRQyw9P2b-h-_oFyO4Pgr4VOB3E&amp;callback=myMap"></script>
+
