@@ -96,7 +96,7 @@ for row in results:
 	
 results = db.view('tweets_analysis/sentiment_analysis', reduce = True, group_level = 2)
 print len(results)
-# for row in results:
-	# print row.key
-	# print row.value
+for row in results:
+	print row.key
+	print row.value
 		
