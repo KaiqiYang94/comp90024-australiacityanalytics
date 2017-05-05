@@ -6,19 +6,20 @@ import json
 from couchdb import Server
 
 # for local test
-#server = Server()
+# server = Server()
 # for run on vm
-server = Server()
+server = Server('http://admin:password@127.0.0.1:5984/')
+
 try:
     db_tweets = server['tweets']
 except:
     db_tweets = server.create('tweets')
 
-# Variables that contains the user credentials to access Twitter API
-access_token = "546643485-WaT1mm4EwJe2RrnxMk5xfNxiUxnvfHc3HQgk6jFO"
-access_token_secret = "GbaChVqU98h8NpUQ1FzfSG2AonWFBVdtalv5d9LNDfUrU"
-consumer_key = "Orgmlwvc3OVi8UtyB1Idk1ArM"
-consumer_secret = "GItv17P5pNOqtf2eRnjpfTTyuveo4LoCHUw4OZz3HJtEOo7i7p"
+# Variables that contains the user credentials to access Twitter API (Yanqin)
+access_token = "856673412072091648-3B7tkrrsmMARPyGFD25H31uVR2P5naq"
+access_token_secret = "rDE3att6LX6vDAAdsAbc5e7toE3G2a6w18aA7DMDQ385y"
+consumer_key = "ktJymnkvujzf0rMeQlqLNnY0H"
+consumer_secret = "dMMSrwi2Us179Ta80e9KOrs7LGwQ17P3LwM9Jx4KCPgCnPXNuv"
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -69,9 +70,11 @@ while True:
             nuser = doc['user']
             ntime = doc['created_at']
             nplace = doc['place']
+            nentities = doc['entities']
             ndoc = {'_id': nid, 'text': ntext, 'user': nuser,
                     'coordinates': ncoordinates, 'create_time': ntime,
-                    'place': nplace, 'addressed': False}
+                    'place': nplace, 'entities': nentities,
+                    'addressed': False}
             db_tweets.save(ndoc)
             print(nid)
             print('-------------------------------------')

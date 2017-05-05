@@ -40,7 +40,26 @@ def text_sentiment_analysis(text):
 			else:
 				return 'neutral'
 		
+def topic_extraction(txt):
+	topics = set()
 	
+	url = "http://api.meaningcloud.com/topics-2.0"
+	payload = "key=afaf04e25bc92f7d3981fbc4790fa05f&lang=en&txt=%s&tt=a" % {txt}
+	headers = {'content-type': 'application/x-www-form-urlencoded'}
+	response = requests.request("POST", url, data=payload, headers=headers)
+	
+	if not response.text is None:
+		result = json.loads(response.text)
+		if result['status']['msg'] == 'OK':
+			#parse entities
+			entities = result['entity_list']
+			for entity in entities:
+				topics.add(entity['form'])
+			#parse concepts:
+			concepts = result['concept_list']
+			for concept in concepts:
+				topics.add(concept['form'])
+	return list(topics)	
 
 	
 #print getSuburb(-37.85317065,145.14944618)
@@ -57,21 +76,27 @@ for row in results:
 	lon = coordinates[0]
 	lat = coordinates[1]
 	suburb, state, country = getSuburb(lat, lon)
+	
 	#sentiment analysis
 	text = row.value.get('text')
 	sentiment = text_sentiment_analysis(text)
+	
+	#topic extraction
+	topics = topic_extraction(text)
+	
 	#update to add sentiment and suburb info into database
 	doc_id = row.key
 	doc = db.get(doc_id)
 	doc['addressed'] = True
 	doc['suburb'] = suburb
 	doc['sentiment'] = sentiment
+	doc['topics'] = topics
 	db.save(doc)
 	
 	
 results = db.view('tweets_analysis/sentiment_analysis', reduce = True, group_level = 2)
 print len(results)
-for row in results:
-	print row.key
-	print row.value
+# for row in results:
+	# print row.key
+	# print row.value
 		

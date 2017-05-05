@@ -1,0 +1,40 @@
+# To execute :
+# ansible-playbook InstallCouchdb.yml  -i ansibleinventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
+---
+- hosts: search
+  vars:
+    http_port: 80
+    max_clients: 200
+  tasks:
+      - name: stop all
+        ignore_errors: True
+        shell: pm2 delete all
+
+      - name: remove old version
+        ignore_errors: True
+        sudo: yes
+        shell: rm -r comp90024-australiacityanalytics
+      
+      - name: dependency
+        sudo: yes
+        shell: pip install paramiko
+
+      - name: Install the package "git"
+        sudo: yes
+        apt:
+          name: git
+          state: present
+
+      - name: Get the source code from git
+        shell: git clone https://kaiqiypublic:kaiqiypublicpw@bitbucket.org/xingh1/comp90024-australiacityanalytics.git
+
+      - name: give pemission
+        sudo: yes
+        shell: chmod +x comp90024-australiacityanalytics/tweetsreader/run_2.sh
+
+      - name: run
+        ignore_errors: True
+        shell: cd comp90024-australiacityanalytics/tweetsreader && ./run_2.sh
+...
+
+

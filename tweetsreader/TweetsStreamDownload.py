@@ -6,20 +6,20 @@ from couchdb import Server
 import json
 
 # for local test
-#server = Server()
+# server = Server()
 # for run on vm
-server = Server()
+server = Server('http://admin:password@127.0.0.1:5984/')
 
 try:
     db = server['tweets']
 except:
     db = server.create('tweets')
 
-# Variables that contains the user credentials to access Twitter API
-access_token = "546643485-WaT1mm4EwJe2RrnxMk5xfNxiUxnvfHc3HQgk6jFO"
-access_token_secret = "GbaChVqU98h8NpUQ1FzfSG2AonWFBVdtalv5d9LNDfUrU"
-consumer_key = "Orgmlwvc3OVi8UtyB1Idk1ArM"
-consumer_secret = "GItv17P5pNOqtf2eRnjpfTTyuveo4LoCHUw4OZz3HJtEOo7i7p"
+# Variables that contains the user credentials to access Twitter API(Ziyuan)
+access_token = "760698710393323522-B7ns3t8JIvMUynVvZauGjbwmCj0cNtq"
+access_token_secret = "VuKvKaD41lzsNVEh1K0cI9gTOUn5r6J7f9znfge9teJOd"
+consumer_key = "Kym8TFa2vzh9qrM3dIhGLykkt"
+consumer_secret = "UyLmcO29KeWXwyoiuHH4FXOSydEmaIcGBNmXIWkjxpwpV4M2Ec"
 
 # Geobox of Melbourne, AU. Source: http://boundingbox.klokantech.com/
 GEOBOX_MEL = [144.5937, -38.4339, 145.5125, -37.5113]
@@ -42,9 +42,11 @@ class ReaderListener(StreamListener):
                 nuser = doc['user']
                 ntime = doc['created_at']
                 nplace = doc['place']
+                nentities = doc['entities']
                 ndoc = {'_id': nid, 'text': ntext, 'user': nuser,
                         'coordinates': ncoordinates, 'create_time': ntime,
-                        'place': nplace, 'addressed': False}
+                        'place': nplace, 'entities': nentities,
+                        'addressed': False}
                 db.save(ndoc)
                 print(nid)
                 print('-------------------------------------')

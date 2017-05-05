@@ -1,0 +1,40 @@
+# To execute :
+# ansible-playbook installApach.yml  -i inventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
+---
+- hosts: server
+  vars:
+    http_port: 80
+    max_clients: 200
+  # remote_user: root
+  tasks:
+      - debug: var=ansible_all_ipv4_addresses
+      - debug: var=ansible_default_ipv4.address
+      - name: enable clustering
+        shell: >
+          curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "enable_cluster", "bind_address":"0.0.0.0", "username": "admin", "password":"password", "port": 5984, "remote_node": "{{ item.split('@')[1] }}", "remote_current_user": "admin", "remote_current_password": "password" }'
+        with_items: 
+          - "{{ groups['dbs'] }}"
+
+      - name: add nodes
+        uri:
+          url: "http://127.0.0.1:5986/_nodes/couchdb@{{ item.split('@')[1] }}"
+          method: PUT
+          user: admin
+          password: password
+          body: "{}"
+          body_format: json
+          status_code: 201
+          force_basic_auth: yes
+          headers:
+            Content-Type: "application/json"
+
+        with_items: 
+          - "{{ groups['dbs'] }}"
+
+      - name: finish clustering
+        shell: |
+          curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "finish_cluster"}'  > output.txt
+
+...
+
+

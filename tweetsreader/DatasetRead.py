@@ -4,10 +4,12 @@ import json
 # for local test
 #server = Server()
 # for run on vm
-server = Server()
+server = Server('http://admin:password@127.0.0.1:5984/')
+
 
 def readFile():
 
+    # add life satisfaction into database
     if 'dataset_life_satisfaction' in server:
         print('----database lift satisfaction existed----------------')
     else:
@@ -23,11 +25,12 @@ def readFile():
             db_life_satisfaction.save(ls_doc)
         print('----------finish life satisfaction------------------')
 
+    # add IEO into database
     if 'dataset_ieo' in server:
         print('----database ieo existed----------------')
     else:
         db_ieo = server.create('dataset_ieo')
-        with open('./dataset/SA2_SEIFA_2011_-_The_Index_of_Education_and_Occupation__IEO_.json') as ieo:
+        with open('./dataset/SA2_SEIFA_2011_-_The_Index_of_Education_and_Occupation__IEO.json') as ieo:
             ieo_data = json.loads(ieo.read())
 
         for ieo_feature in ieo_data['features']:
@@ -37,6 +40,7 @@ def readFile():
             db_ieo.save(ieo_doc)
         print('----------finish IEO------------------')
 
+    # add self-assessed health into database
     if 'dataset_self_assessed_health' in server:
         print('----database self_assessed_health existed----------------')
     else:
@@ -50,6 +54,37 @@ def readFile():
             sah_doc = {'_id': sah_id, 'properties': sah_properties}
             db_self_assessed_health.save(sah_doc)
         print('----------finish db_self_assessed_health------------------')
+
+# add Community Strength into database
+    if 'dataset_community_strength' in server:
+        print('----database community_strength existed----------------')
+    else:
+        db_community_strength = server.create('dataset_community_strength')
+        with open('./dataset/SA2_Community_Strength.json') as cs:
+            cs_data = json.loads(cs.read())
+
+        for cs_feature in cs_data['features']:
+            cs_id = cs_feature['id']
+            cs_properties = cs_feature['properties']
+            cs_doc = {'_id': cs_id, 'properties': cs_properties}
+            db_community_strength.save(cs_doc)
+        print('----------finish db_community_strength------------------')
+
+
+# add Community Strength into database
+    if 'dataset_ier' in server:
+        print('----database ier existed----------------')
+    else:
+        db_ier = server.create('dataset_ier')
+        with open('./dataset/SA2_SEIFA_2011_-_The_Index_of_Economic_Resources__IER.json') as ier:
+            ier_data = json.loads(ier.read())
+
+        for ier_feature in ier_data['features']:
+            ier_id = ier_feature['id']
+            ier_properties = ier_feature['properties']
+            ier_doc = {'_id': ier_id, 'properties': ier_properties}
+            db_ier.save(ier_doc)
+        print('----------finish ier------------------')
 
 
 readFile()
