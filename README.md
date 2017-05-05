@@ -18,6 +18,7 @@ This project undertakes a variety of social media data analytics scenarios that 
 
 * Tweepy
 * Couchdb
+* paramiko
 
 ### Contribution ###
 

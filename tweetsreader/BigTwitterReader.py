@@ -21,11 +21,12 @@ print('----------------Start reading--------------------------')
 
 
 sftp = ssh.open_sftp()
-doc = sftp.open('tinyTwitter.json', 'r')
+doc = sftp.open('bigTwitter.json', 'r')
 temp = doc.readline()
 
 line = doc.readline()
-while line != "]":
+
+while line.strip() != "]":
 
     data = json.loads(line.replace('}}},', '}}}'))
 
@@ -49,7 +50,7 @@ while line != "]":
         print('-------------------------------------')
     line = doc.readline()
 
-
+print('--------------finish read bigTwitter-------------------------')
 doc.close
-# sftp.close
-# ssh.close
+sftp.close
+ssh.close
