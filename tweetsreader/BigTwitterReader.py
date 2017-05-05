@@ -2,14 +2,16 @@ import paramiko
 from couchdb import Server
 import json
 
-server = Server('http://admin:password@127.0.0.1:5984/')
+server = Server('http://admin:xinghu@127.0.0.1:5984/')
 try:
     db_tweets = server['tweets']
 except:
     db_tweets = server.create('tweets')
 
-username = "ziyuanw"
-password = "19910816"
+# username = "ziyuanw"
+# password = "19910816"
+username = "xingh1"
+password = "911027.com"
 
 ssh = paramiko.SSHClient()
 ssh.load_system_host_keys()
@@ -27,6 +29,7 @@ temp = doc.readline()
 line = doc.readline()
 while line != "]":
 
+    print(line)
     data = json.loads(line.replace('}}},', '}}}'))
 
     nid = data['json']['id_str']
@@ -49,7 +52,6 @@ while line != "]":
         print('-------------------------------------')
     line = doc.readline()
 
-
 doc.close
-# sftp.close
-# ssh.close
+sftp.close
+ssh.close
