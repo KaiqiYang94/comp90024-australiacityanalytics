@@ -26,3 +26,8 @@ PasswordAuthentication no ==>
 PubkeyAuthentication yes
 
 sudo systemctl reload sshd
+
+
+
+# 
+curl -X DELETE http://admin:password@localhost:5984/_global_changes
