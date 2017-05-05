@@ -7,8 +7,9 @@
 <script>
 function myMap() {
 var mapProp= {
-    center: {lat: -38, lng: 145},
-    zoom: 8
+          center: {lat: -37.8141, lng: 144.9633},
+          zoom: 11,
+          mapTypeId: google.maps.MapTypeId.SATELLITE
 };
 var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 }
@@ -16,3 +17,4 @@ var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFTcYUCRQyw9P2b-h-_oFyO4Pgr4VOB3E&amp;callback=myMap"></script>
+
