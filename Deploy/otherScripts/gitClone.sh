@@ -15,9 +15,9 @@ wget https://nodejs.org/dist/latest/node-v7.10.0-linux-x64.tar.gz
 
 ## Adding user
 
-adduser kaiqi
+sudo adduser kaiqi
 
-usermod -aG sudo kaiqiy
+sudo usermod -aG sudo kaiqiy
 
 sudo nano /etc/ssh/sshd_config
 
