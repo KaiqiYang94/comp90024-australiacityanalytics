@@ -14,6 +14,10 @@
         ignore_errors: True
         sudo: yes
         shell: rm -r comp90024-australiacityanalytics
+      
+      - name: dependency
+        sudo: yes
+        shell: pip install paramiko
 
       - name: Install the package "git"
         sudo: yes
