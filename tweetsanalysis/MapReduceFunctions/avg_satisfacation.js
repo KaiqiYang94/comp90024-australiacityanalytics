@@ -1,3 +1,9 @@
+//db: dataset_life_satisfaction
+//design_doc name: life_satisfacation_summary
+//view name: avg_satisfacation
+//purpose: return the average life satisfacation of all suburbs
+
+
 function (doc) {
   var avg_satisfacation = 
     doc.properties.proportion_percent_among_aged_17plus_on_life_satisfaction_scale_at_10_synthetic_estimates * 0.01 * 10
