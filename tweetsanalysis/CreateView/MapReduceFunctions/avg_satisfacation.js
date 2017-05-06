@@ -17,5 +17,5 @@ function (doc) {
     + doc.properties.proportion_percent_among_aged_17plus_on_life_satisfaction_scale_at_90_synthetic_estimates * 0.01 * 90
     + doc.properties.proportion_percent_among_aged_17plus_on_life_satisfaction_scale_at_100_synthetic_estimates * 0.01 * 100
     
-    emit(doc.properties.sa2_name11, avg_satisfacation);
+    emit(avg_satisfacation, doc.properties.sa2_name11);
 }

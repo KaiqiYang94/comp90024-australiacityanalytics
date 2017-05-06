@@ -4,5 +4,5 @@
 //purpose: return the rate of doing voluntary work of each suburb
 
 function (doc) {
-  emit(doc.properties.area_name, doc.properties.volun_abs_3_percent_6_11_6_11);
+  emit(doc.properties.volun_abs_3_percent_6_11_6_11, doc.properties.area_name);
 }

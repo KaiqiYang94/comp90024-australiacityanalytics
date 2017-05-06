@@ -4,5 +4,5 @@
 //purpose: return the economic resources score of each suburb
 
 function (doc) {
-  emit(doc.properties.sa2_name, doc.properties.score);
+  emit(doc.properties.score, doc.properties.sa2_name);
 }
