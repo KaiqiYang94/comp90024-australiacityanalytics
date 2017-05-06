@@ -61,30 +61,25 @@ def topic_extraction(txt):
 				topics.add(concept['form'])
 	return list(topics)	
 
-	
-#print getSuburb(-37.85317065,145.14944618)
-#print text_sentiment_analysis('I never hate it.')
-
 couch = couchdb.Server()
 db = couch['tweets']
 
 results = db.view('tweets_analysis/filter_tweets_with_coordinates_inside_melbourne')
-print len(results)
 for row in results:
-	#get Suburb
-	coordinates = row.value.get('coordinates').get('coordinates')
+	###get Suburb
+	coordinates = row.value[0]
 	lon = coordinates[0]
 	lat = coordinates[1]
 	suburb, state, country = getSuburb(lat, lon)
 	
-	#sentiment analysis
-	text = row.value.get('text')
+	###sentiment analysis
+	text = row.value[1]
 	sentiment = text_sentiment_analysis(text)
 	
-	#topic extraction
+	###topic extraction
 	topics = topic_extraction(text)
 	
-	#update to add sentiment and suburb info into database
+	###update to add sentiment and suburb info into database
 	doc_id = row.key
 	doc = db.get(doc_id)
 	doc['addressed'] = True
@@ -92,11 +87,4 @@ for row in results:
 	doc['sentiment'] = sentiment
 	doc['topics'] = topics
 	db.save(doc)
-	
-	
-results = db.view('tweets_analysis/sentiment_analysis', reduce = True, group_level = 2)
-print len(results)
-for row in results:
-	print row.key
-	print row.value
-		
+print "finished"		

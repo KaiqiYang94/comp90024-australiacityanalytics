@@ -19,6 +19,12 @@ with open('./MapReduceFunctions/tweets_with_vulgar_word.js') as f:
 	
 with open('./MapReduceFunctions/filter_tweets_with_health.js') as f:
     filter_tweets_with_health = f.read()
+	
+with open('./MapReduceFunctions/monitor_processed_number.js') as f:
+    monitor_processed_number = f.read()
+	
+with open('./MapReduceFunctions/monitor_processed_number_rereduce.js') as f:
+    monitor_processed_number_rereduce = f.read()
 
 design_doc = {
     "_id": "_design/tweets_analysis",
@@ -42,6 +48,10 @@ design_doc = {
         "tweets_with_vulgar_word": {
             "map": tweets_with_vulgar_word,
 			"reduce": reduce
+        },
+		"monitor_processed_number": {
+            "map": monitor_processed_number,
+			"reduce": monitor_processed_number_rereduce
         }
     }
 }
