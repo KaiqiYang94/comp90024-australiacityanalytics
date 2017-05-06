@@ -2,27 +2,42 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Australia City Analytics' });
 });
 
 router.get('/scenarios', function(req, res, next) {
-  
-  //var content_url = 'http://admin:password@127.0.0.1:5984/dataset_ier/seifa_ier_aust_sa2.fid-6ec8c59a_15bc3c26fba_6344'
-  var content_url = 'http://admin:password@127.0.0.1:5984/dataset_ieo/_design/ieo_analysis/_view/ieo_score?limit=10;descending=True'
+  var suburbs = []
+  var scores = []
+  var content_url1 = 'http://admin:password@127.0.0.1:5984/dataset_life_satisfaction/_design/life_satisfacation_summary/_view/avg_satisfacation?limit=10;descending=True'
   //res.render('scenarios', { title:'Content', msg: content});
-  request(content_url, function(error, response, body){
+  request(content_url1, function(error, response, body){
         //Error Handling
      if(!error && response.statusCode == 200){
-            console.log(body);
             
-            res.render('scenarios', {title: 'scenarios', msg: body});
+            console.log("-----------")
+            var obj = JSON.parse(body)
+            
+            for(var row in obj['rows']){
+              var score = obj['rows'][row]['key'];
+             
+              var suburb = obj['rows'][row]['value'];
+              scores.push(score);
+              suburbs.push(suburb);
+
+            }
+            res.render('scenarios', {title: 'scenarios', suburbs: JSON.stringify(suburbs), scores: JSON.stringify(scores)});
         } else {
             res.render('scenarios', {title: JSON.stringify(error)});
             console.log("wrong");
         }
     });
+
+
+
+ 
 });
 
 router.get('/scenarios/ieo', function(req, res, next) {
