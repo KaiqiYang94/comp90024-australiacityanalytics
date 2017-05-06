@@ -1,6 +1,6 @@
 function (doc) {
   if(doc.addressed){
-    topics = ['unimelb', 'the university of melbourne', 'uni melb', 'melb uni'];
+    topics = ['health', 'body', 'energy', 'fitness'];
     var hasTopics = findTopics(topics, doc);
     if(hasTopics){
       emit([doc.suburb, doc.sentiment], 1);

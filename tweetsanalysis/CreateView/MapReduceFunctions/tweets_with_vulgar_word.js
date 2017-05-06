@@ -1,3 +1,9 @@
+//db: tweets
+//design_doc: tweets_analysis
+//view: tweets_with_vulgar_word
+//purpose: return the numbr of tweets with vulgar_word of each suburb
+
+
 function (doc) {
   var vulgarWords = ['asshole', 'badass','bastard','bitch','bullshit','cock','cunt','dick','dickhead','fag','faggot','fart','fatass',
   'fuck','fuck up','fucked','fucker','fucking','greek','holy shit','jackass','jerk off','kick ass','kike','nigga','nigger','piss','pissed','pissed off',
@@ -7,7 +13,7 @@ function (doc) {
     text = doc.text.toLowerCase();
     vulgarWords.forEach(function(vw){
       if(text.indexOf(vw)>-1){
-        emit([doc.suburb, doc.sentiment], 1);
+        emit(doc.suburb, 1);
       }
     });
   }
