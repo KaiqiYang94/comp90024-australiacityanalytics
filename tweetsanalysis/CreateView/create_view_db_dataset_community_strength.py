@@ -18,4 +18,8 @@ design_doc = {
 couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['dataset_community_strength']
 
+id = "_design/voluntary_work_analysis"
+if id in db:
+	del db[id]
+
 db.save(design_doc)

@@ -8,14 +8,17 @@ with open('./MapReduceFunctions/filter_tweets_with_coordinates_inside_melbourne.
 with open('./MapReduceFunctions/sentiment_summary_map.js') as f:
     sentiment_map = f.read()
 
-with open('./MapReduceFunctions/sentiment_summary_reduce.js') as f:
-    sentiment_reduce = f.read()
+with open('./MapReduceFunctions/tweets_reduce.js') as f:
+    reduce = f.read()
 
 with open('./MapReduceFunctions/filter_tweets_with_tump.js') as f:
     filter_tweets_with_tump = f.read()
 
 with open('./MapReduceFunctions/tweets_with_vulgar_word.js') as f:
     tweets_with_vulgar_word = f.read()
+	
+with open('./MapReduceFunctions/filter_tweets_with_health.js') as f:
+    filter_tweets_with_health = f.read()
 
 design_doc = {
     "_id": "_design/tweets_analysis",
@@ -26,18 +29,28 @@ design_doc = {
         },
         "sentiment_summary": {
             "map": sentiment_map,
-            "reduce": sentiment_reduce
+            "reduce": reduce
         },
         "filter_tweets_with_tump": {
-            "map": filter_tweets_with_tump
+            "map": filter_tweets_with_tump,
+			"reduce": reduce
+        },
+		"filter_tweets_with_health": {
+            "map": filter_tweets_with_health,
+			"reduce": reduce
         },
         "tweets_with_vulgar_word": {
-            "map": tweets_with_vulgar_word
+            "map": tweets_with_vulgar_word,
+			"reduce": reduce
         }
     }
 }
 
 couch = couchdb.Server()
 db = couch['tweets']
+
+id = "_design/tweets_analysis"
+if id in db:
+	del db[id]
 
 db.save(design_doc)

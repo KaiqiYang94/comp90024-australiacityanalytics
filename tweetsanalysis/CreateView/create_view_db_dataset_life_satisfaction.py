@@ -30,4 +30,8 @@ design_doc = {
 couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['dataset_life_satisfaction']
 
+id = "_design/life_satisfacation_summary"
+if id in db:
+	del db[id]
+
 db.save(design_doc)

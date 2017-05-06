@@ -13,7 +13,7 @@ function (doc) {
     text = doc.text.toLowerCase();
     vulgarWords.forEach(function(vw){
       if(text.indexOf(vw)>-1){
-        emit([doc.suburb, doc.sentiment], 1);
+        emit(doc.suburb, 1);
       }
     });
   }
