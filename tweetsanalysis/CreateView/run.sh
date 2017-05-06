@@ -3,3 +3,5 @@ python create_view_db_dataset_ieo.py
 python create_view_db_dataset_ier.py
 python create_view_db_dataset_life_satisfaction.py
 python create_view_db_dataset_self_assessed_health.py
+python create_view_db_tweets.py
+python create_view_db_tweets_summary.py
