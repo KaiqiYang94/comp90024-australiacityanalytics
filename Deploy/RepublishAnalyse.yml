@@ -8,7 +8,7 @@
   tasks:
       - name: stop all
         ignore_errors: True
-        shell: pm2 delete all
+        shell: pm2 delete TweetsSummary && pm2 delete TweetsAnalysis
 
       - name: remove old version
         ignore_errors: True
@@ -26,11 +26,11 @@
 
       - name: give pemission
         sudo: yes
-        shell: chmod +x comp90024-australiacityanalytics/tweetsreader/run_2.sh
+        shell: chmod +x comp90024-australiacityanalytics/tweetsanalysis/CreateView/MapReduceFunctions/run.sh
 
       - name: run
         ignore_errors: True
-        shell: cd cd comp90024-australiacityanalytics/tweetsanalysis/CreateView/MapReduceFunctions && ./run.sh
+        shell: cd comp90024-australiacityanalytics/tweetsanalysis/CreateView/MapReduceFunctions && ./run.sh
 ...
 
 
