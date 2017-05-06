@@ -56,7 +56,7 @@ design_doc = {
     }
 }
 
-couch = couchdb.Server()
+couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['tweets']
 
 id = "_design/tweets_analysis"

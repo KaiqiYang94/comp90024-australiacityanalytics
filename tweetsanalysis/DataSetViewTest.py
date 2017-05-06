@@ -1,6 +1,6 @@
 import couchdb
 
-couch = couchdb.Server()
+couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 dataset_db = couch['dataset_ieo']
 tweets_db = couch['tweets']
 

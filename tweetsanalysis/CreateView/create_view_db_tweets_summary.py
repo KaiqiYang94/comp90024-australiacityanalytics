@@ -49,8 +49,11 @@ design_doc = {
     }
 }
 
-couch = couchdb.Server()
-db = couch['tweets_summary']
+couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
+try:
+    db = couch['tweets_summary']
+except:
+    db = couch.create('tweets_summary')
 
 id = "_design/tweets_summary"
 if id in db:

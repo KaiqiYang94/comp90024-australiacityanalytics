@@ -61,7 +61,7 @@ def topic_extraction(txt):
 				topics.add(concept['form'])
 	return list(topics)	
 
-couch = couchdb.Server()
+couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['tweets']
 
 results = db.view('tweets_analysis/filter_tweets_with_coordinates_inside_melbourne')

@@ -1,7 +1,7 @@
 import couchdb
 from collections import defaultdict
 
-couch = couchdb.Server()
+couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 tweets_db = couch['tweets']
 try:
     summary_db = couch['tweets_summary']
