@@ -15,7 +15,7 @@ design_doc = {
   }
 }
 
-couch = couchdb.Server()
+couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['dataset_ier']
 
 db.save(design_doc)
