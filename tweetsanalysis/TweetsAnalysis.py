@@ -64,7 +64,7 @@ def topic_extraction(txt):
 couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['tweets']
 
-results = db.view('tweets_analysis/filter_tweets_with_coordinates_inside_melbourne')
+results = db.view('tweets_analysis/filter_tweets_with_coordinates_inside_melbourne', limit = 1000)
 for row in results:
 	###get Suburb
 	coordinates = row.value[0]

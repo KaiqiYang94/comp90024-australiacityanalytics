@@ -26,11 +26,11 @@
 
       - name: give pemission
         sudo: yes
-        shell: chmod +x comp90024-australiacityanalytics/tweetsanalysis/CreateView/MapReduceFunctions/run.sh
+        shell: chmod +x comp90024-australiacityanalytics/tweetsanalysis/CreateView/run.sh
 
       - name: run
         ignore_errors: True
-        shell: cd comp90024-australiacityanalytics/tweetsanalysis/CreateView/MapReduceFunctions && ./run.sh
+        shell: cd comp90024-australiacityanalytics/tweetsanalysis/CreateView && ./run.sh
 ...
 
 
