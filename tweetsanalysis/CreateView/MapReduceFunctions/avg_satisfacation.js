@@ -1,3 +1,9 @@
+//db: dataset_life_satisfaction
+//design_doc name: life_satisfacation_summary
+//view name: avg_satisfacation
+//purpose: return the average life satisfacation of all suburbs
+
+
 function (doc) {
   var avg_satisfacation = 
     doc.properties.proportion_percent_among_aged_17plus_on_life_satisfaction_scale_at_10_synthetic_estimates * 0.01 * 10
@@ -11,5 +17,5 @@ function (doc) {
     + doc.properties.proportion_percent_among_aged_17plus_on_life_satisfaction_scale_at_90_synthetic_estimates * 0.01 * 90
     + doc.properties.proportion_percent_among_aged_17plus_on_life_satisfaction_scale_at_100_synthetic_estimates * 0.01 * 100
     
-    emit(doc.properties.sa2_name11, avg_satisfacation);
+    emit(avg_satisfacation, doc.properties.sa2_name11);
 }

@@ -1,3 +1,9 @@
+//db: tweets
+//design_doc: tweets_analysis
+//view: filter_tweets_with_coordinates_inside_melbourne
+//purpose: filter tweets with coordinates inside melbourne
+
+
 function (doc) {
   if(!doc.addressed && doc.coordinates){
     lon = doc.coordinates.coordinates[0];

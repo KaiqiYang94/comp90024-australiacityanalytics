@@ -1,6 +1,12 @@
+//db: tweets
+//design_doc: tweets_analysis
+//view: filter_tweets_with_trump
+//purpose: filter processed tweets with topic trump
+
+
 function (doc) {
   if(doc.addressed){
-    topics = ['unimelb', 'the university of melbourne', 'uni melb', 'melb uni'];
+    topics = ['trump', 'donald'];
     var hasTopics = findTopics(topics, doc);
     if(hasTopics){
       emit([doc.suburb, doc.sentiment], 1);
