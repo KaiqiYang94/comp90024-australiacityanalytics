@@ -48,7 +48,7 @@ for suburb in suburbs:
 	trumps = suburb_trump.get(id)
 	if trumps == None:
 		trump_positive_rate = 0
-		trump_positive_rate = 0
+		trump_negative_rate = 0
 	else:
 		trump_no = sum(trumps.values())
 		trump_positive_no = trumps.get("positive", 0)
@@ -59,7 +59,7 @@ for suburb in suburbs:
 	healths = suburb_health.get(id)
 	if healths == None:
 		health_positive_rate = 0
-		health_positive_rate = 0
+		health_negative_rate = 0
 	else:
 		health_no = sum(healths.values())
 		health_positive_no = healths.get("positive", 0)
