@@ -11,24 +11,23 @@ router.get('/', function(req, res, next) {
 router.get('/scenarios', function(req, res, next) {
   var suburbs = []
   var scores = []
-  var content_url1 = 'http://admin:password@127.0.0.1:5984/dataset_life_satisfaction/_design/life_satisfacation_summary/_view/avg_satisfacation?limit=10;descending=True'
+  var content_url = 'http://admin:password@127.0.0.1:5984/dataset_life_satisfaction/_design/life_satisfacation_summary/_view/avg_satisfacation?limit=10;descending=True'
   //res.render('scenarios', { title:'Content', msg: content});
-  request(content_url1, function(error, response, body){
+  request(content_url, function(error, response, body){
         //Error Handling
      if(!error && response.statusCode == 200){
             
-            console.log("-----------")
             var obj = JSON.parse(body)
             
             for(var row in obj['rows']){
               var score = obj['rows'][row]['key'];
-             
               var suburb = obj['rows'][row]['value'];
-              scores.push(score);
-              suburbs.push('s');
+              suburbs.push(suburb);
+              scores.push(score.toFixed(2));
 
             }
-            res.render('scenarios', {title: 'Tweet map', scores: JSON.stringify(scores), suburbs: JSON.stringify(suburbs)});
+            res.render('scenarios', {title: 'Tweet map', suburbs: JSON.stringify(suburbs), scores: JSON.stringify(scores)});
+
          } else {
             res.render('scenarios', {title: JSON.stringify(error)});
             console.log("wrong");
