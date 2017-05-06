@@ -25,11 +25,11 @@ router.get('/scenarios', function(req, res, next) {
              
               var suburb = obj['rows'][row]['value'];
               scores.push(score);
-              suburbs.push(suburb);
+              suburbs.push('s');
 
             }
-            res.render('scenarios', {title: 'scenarios', suburbs: JSON.stringify(suburbs), scores: JSON.stringify(scores)});
-        } else {
+            res.render('scenarios', {title: 'Tweet map', scores: JSON.stringify(scores), suburbs: JSON.stringify(suburbs)});
+         } else {
             res.render('scenarios', {title: JSON.stringify(error)});
             console.log("wrong");
         }
