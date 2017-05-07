@@ -1,7 +1,7 @@
 # To execute :
 # ansible-playbook InstallCouchdb.yml  -i ansibleinventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
 ---
-- hosts: searchTrump
+- hosts: searchTopic
   vars:
     http_port: 80
     max_clients: 200
