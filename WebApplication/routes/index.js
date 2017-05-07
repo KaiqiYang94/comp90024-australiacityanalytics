@@ -15,32 +15,42 @@ router.get('/', function(req, res, next) {
 //           3. aurin - low
 //           4. tweets- semantic
 router.get('/scenarios', function(req, res, next) {
-  var suburbs = []
-  var scores = []
-  var content_url = 'http://admin:password@127.0.0.1:5984/dataset_life_satisfaction/_design/life_satisfacation_summary/_view/avg_satisfacation?limit=10;descending=True'
-  //res.render('scenarios', { title:'Content', msg: content});
-  request(content_url, function(error, response, body){
-        //Error Handling
-     if(!error && response.statusCode == 200){
-            
-            var obj = JSON.parse(body)
-            
-            for(var row in obj['rows']){
-              var score = obj['rows'][row]['key'];
-              var suburb = obj['rows'][row]['value'];
-              suburbs.push(suburb);
-              scores.push(score.toFixed(2));
+  var suburbs_avg = []
+  var scores_avg = []
+  var suburb_tweets = []
+  var scores_tweets = []
+  
+  var aurin_avg_url = 'http://admin:password@127.0.0.1:5984/dataset_life_satisfaction/_design/life_satisfacation_summary/_view/avg_satisfacation?limit=10;descending=True'
+  var tweets_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/positive_rate?limit=10;descending=True'
 
-            }
-            res.render('scenarios', {title: 'Tweet map', suburbs: JSON.stringify(suburbs), scores: JSON.stringify(scores)});
+// read 1
+  rp(aurin_avg_url)
+      .then(function(response){
+          var obj = JSON.parse(response);
+          for(var row in obj['rows']){
+              
+            var score = obj['rows'][row]['key'];
+            var suburb = obj['rows'][row]['value'];
+            suburbs_avg.push(suburb);
+            scores_avg.push(score);
+          }
+// read 4        
+       return rp(tweets_url)
+       })
+      .then(function(response){
+          var obj = JSON.parse(response);
+          for(var row in obj['rows']){
+              
+            var score = obj['rows'][row]['key'];
+            var suburb = obj['rows'][row]['value'];
+            suburb_tweets.push(suburb);
+            scores_tweets.push(score);
+          }
+          res.render('scenarios', {chart1: 'AURIN- TOP 10 Cities with highest Life Satisfaction', suburbs_avg: JSON.stringify(suburbs_avg), scores_avg: JSON.stringify(scores_avg), 
+                                   chart2: 'AURIN- TOP 10 Cities with positive tweets', suburb_tweets: JSON.stringify(suburb_tweets), scores_tweets: JSON.stringify(scores_tweets)});
+          return Promise.resolve();
 
-         } else {
-            res.render('scenarios', {title: JSON.stringify(error)});
-            console.log("wrong");
-        }
-    });
-
-
+      }).catch(function(err){console.log("error: "+err)});
 
  
 });
@@ -78,6 +88,15 @@ router.get('/scenarios/volunteer', function(req, res, next) {
  res.render('volunteer', { title: 'volunteer' });
 });
 
+//for Trump page
+//data need: 1. tweets- trump position
+//           2. tweets- trump negative
+router.get('/scenarios/trump', function(req, res, next) {
+  
+ res.render('trump', { title: 'trump' });
+});
+
+//Map
 router.get('/mapdemo', function(req, res, next) {
   res.render('mapdemo', {});
 });
