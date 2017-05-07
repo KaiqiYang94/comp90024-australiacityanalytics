@@ -65,9 +65,10 @@
       - name: install dependencies
         shell: cd comp90024-australiacityanalytics/WebApplication && npm install
 
-      - name: run website
-        sudo: yes
-        shell: pm2 start comp90024-australiacityanalytics/WebApplication/bin/www
+      # There is some thing wrong with the pm2 framework, should trigger manully
+      # - name: run website
+      #   sudo: yes
+      #   shell: pm2 start comp90024-australiacityanalytics/WebApplication/bin/www
 
 ...
 
