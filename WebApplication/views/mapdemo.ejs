@@ -1,7 +1,6 @@
 
 <% include ./layout %>
 
-
 <div id="googleMap" style="width:100%;height:400px;"></div>
 
 
@@ -26,9 +25,22 @@
 	  strokeWeight: 1
 	});
 
+
+  	var infoWindow;
+
+    infoWindow = new google.maps.InfoWindow;
+
 	map.data.addListener('click', function (event) {
 	    var suburb = event.feature.getProperty('vic_loca_2');
-	    console.log("name is " + suburb);
+	    console.log(" The name of the suburb is " + suburb);
+
+
+        // Replace the info window's content and position.
+        infoWindow.setContent("<p class='map-popup-content' > The name of the suburb is  " + suburb +"</p>");
+        infoWindow.setPosition(event.latLng);
+
+        infoWindow.open(map);
+
 	});
 
 	}
@@ -77,4 +89,5 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+
 
