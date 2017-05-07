@@ -15,18 +15,145 @@
         <li><a href="/scenarios/trump">Trump</a></li>
       </ul><br/>
     </div>
+
+
     <div class="col-sm-9">
-      <h2>Volunteer Work</h2>
+      <h2>Melbourn residents' Volunteer Work Rate Analysis</h2>
       <hr/>
-      <h3>Twitter Data</h3>
-      
-      <br/><br/>
-      
-      <h3><%= title %></h3>
-    
+      <h3>Aurin Data</h3>
+
+      <ul>
+        
+        <li style="width:800px; height:450px;">
+        <canvas id="chart1"></canvas>
+        </li>
+
+      </ul>
+      <hr/>
+      <h3> Tweets Data Analysis</h3>
+      <ul>
+        
+  
+        <li style="width:800px; height:450px;">
+        <canvas id="chart2"></canvas>
+        </li>
+
+
+      </ul>
+
+      <hr/>
+      <h3>Data show </h3>
+      <h4><%= chart1 %></h4>
+      <p><%= suburbs_aurin %></p>
+      <p><%= scores_aurin %></p>
+      <h4><%= chart2 %></h4>
+      <p><%= suburb_tweets %></p>
+      <p><%= scores_tweets %></p>
 
       <br/><br/>
     </div>
   </div>
 </div>
 
+<script type='text/javascript'>
+//read all data 
+var scor_num = <%- (scores_aurin) %>
+var suburbs = <%- suburbs_aurin %>
+var chart1 = <%- JSON.stringify(chart1) %>
+
+var scor_num2 = <%- (scores_tweets) %>
+var suburbs2 = <%- suburb_tweets %>
+var chart2 = <%- JSON.stringify(chart2) %>
+
+var ctx1 = document.getElementById("chart1");
+var chart1 = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+        labels: suburbs,
+        datasets: [{
+            label: chart1,
+            data: scor_num,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+var ctx2 = document.getElementById("chart2");
+var chart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: suburbs2,
+        datasets: [{
+            label: chart2,
+            data: scor_num2,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
