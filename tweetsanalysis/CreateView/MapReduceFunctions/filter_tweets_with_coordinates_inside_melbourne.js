@@ -9,7 +9,7 @@ function (doc) {
     lon = doc.coordinates.coordinates[0];
     lat = doc.coordinates.coordinates[1];
     if(insideMelbourne(lat,lon)){
-      emit(doc._id, doc);
+      emit(doc._id, [doc.coordinates.coordinates, doc.text]);
     }
   }
 }

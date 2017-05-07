@@ -16,8 +16,8 @@
 	          // mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
 	var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-	// map.data.loadGeoJson('http://data.gov.au/geoserver/vic-suburb-locality-boundaries-psma-administrative-boundaries/wfs?request=GetFeature&typeName=af33dd8c_0534_4e18_9245_fc64440f742e&outputFormat=json');
-	map.data.loadGeoJson('/VICSuburbs.json');
+	map.data.loadGeoJson('http://data.gov.au/geoserver/vic-suburb-locality-boundaries-psma-administrative-boundaries/wfs?request=GetFeature&typeName=af33dd8c_0534_4e18_9245_fc64440f742e&outputFormat=json');
+	// map.data.loadGeoJson('/VICSuburbs.json');
 
 	map.data.setStyle({
 	  // fillColor: 'green',
