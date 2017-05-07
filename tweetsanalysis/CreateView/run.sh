@@ -21,3 +21,4 @@ pm2 start TweetsSummary.py --restart-delay 60000
 
 
 
+# curl http://localhost:5984/tweets/_design/tweets_analysis/_view/monitor_processed_number?reduce=false&limit=10

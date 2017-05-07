@@ -33,7 +33,7 @@ def text_sentiment_analysis(text):
         try:
             result = json.loads(response.text)
         except ValueError:
-            print('---------------------------------------')
+            print('-----------sentiment----------------------------')
             print(response.text)
 
     if result['status']['msg'] == 'OK':
@@ -59,8 +59,12 @@ def topic_extraction(txt):
     response = requests.request("POST", url, data=payload, headers=headers)
 
     if not response.text is None:
-
-        result = json.loads(response.text)
+        try:
+            result = json.loads(response.text)
+        except ValueError:
+            print('-----------topic_extraction----------------------------')
+            print(response.text)
+        
         if result['status']['msg'] == 'OK':
             # parse entities
             entities = result['entity_list']
