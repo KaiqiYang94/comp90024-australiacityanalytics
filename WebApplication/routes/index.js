@@ -258,7 +258,7 @@ router.get('/scenarios/health', function(req, res, next) {
                 suburb_pos_tweets.push(suburb);
                 scores_pos_tweets.push(score);
             }
-            // read 2
+            // read 3
             return rp(tweets_neg_url)
         })
 
@@ -339,7 +339,86 @@ router.get('/scenarios/volunteer', function(req, res, next) {
 
 //Map
 router.get('/mapdemo', function(req, res, next) {
-    res.render('mapdemo', {});
+    var all_data = []
+
+    // each suburb has 1. average value of life satisfaction
+    //                 2. average value of wealth level (IER)
+    //                 3. average value of education and occupation level (IEO)
+    //                 4. average score of tweets
+    var lfsts_url = 'http://admin:password@127.0.0.1:5984/dataset_life_satisfaction/_design/life_satisfacation_summary/_view/avg_satisfacation'
+    var ieo_url = 'http://admin:password@127.0.0.1:5984/dataset_ieo/_design/ieo_analysis/_view/ieo_score'
+    var ier_url = 'http://admin:password@127.0.0.1:5984/dataset_ier/_design/ier_analysis/_view/wealth_score'
+    var tweets_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/positive_rate'
+
+
+    // read 1
+    rp(lfsts_url)
+        .then(function(response) {
+            var obj = JSON.parse(response);
+            for (var row in obj['rows']) {
+
+                var score = obj['rows'][row]['key'];
+                var suburb = obj['rows'][row]['value'];
+                all_data.push({ 'name': suburb, "lf_avg": score })
+            }
+            // read 2
+            return rp(ieo_url)
+        })
+        .then(function(response) {
+            var obj = JSON.parse(response);
+            for (var row in obj['rows']) {
+
+                var score = obj['rows'][row]['key'];
+                var suburb = obj['rows'][row]['value'];
+                for (var ele in all_data) {
+                    if (all_data[ele]['name'] == suburb) {
+                        all_data[ele]['ieo_avg'] = score;
+                    }
+                }
+            }
+            // read 3
+            return rp(ier_url)
+        })
+        .then(function(response) {
+            var obj = JSON.parse(response);
+            for (var row in obj['rows']) {
+
+                var score = obj['rows'][row]['key'];
+                var suburb = obj['rows'][row]['value'];
+                for (var ele in all_data) {
+                    if (all_data[ele]['name'] == suburb) {
+                        all_data[ele]['ier_avg'] = score;
+                    }
+                }
+            }
+            // read 4
+            return rp(tweets_url)
+        })
+
+    .then(function(response) {
+        var obj = JSON.parse(response);
+        for (var row in obj['rows']) {
+
+            var score = obj['rows'][row]['key'];
+            var suburb = obj['rows'][row]['value'];
+            for (var ele in all_data) {
+                if (all_data[ele]['name'] == suburb) {
+                    all_data[ele]['tweets_avg'] = score;
+                }
+            }
+        }
+        res.render('mapdemo', {
+            title: 'mapdemo',
+            all_data: JSON.stringify(all_data)
+        });
+        return Promise.resolve();
+
+    }).catch(function(err) { console.log("error: " + err) });
+
+
+
 });
+
+
 
 module.exports = router;
