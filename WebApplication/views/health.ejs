@@ -116,7 +116,9 @@ var chart1 = new Chart(ctx1, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false,
+                    min: 20,
+                    max: 30
                 }
             }]
         }
