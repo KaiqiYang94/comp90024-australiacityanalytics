@@ -17,31 +17,50 @@
     </div>
 
     <div class="col-sm-9">
-      <h2>Twitter VS Aurin Anaysis</h2>
+      <h2>Melbourn residents' Life Satisfaction Level Anaysis</h2>
       <hr/>
       <h3>Aurin Data</h3>
  
 
       <ul>
         
-        <li style="width:800px; height:300px;">
+        <li style="width:800px; height:450px;">
         <canvas id="chart1"></canvas>
         </li>
-        <li style="width:800px; height:300px;">
+        <li style="width:800px; height:450px;">
         <canvas id="chart2"></canvas>
         </li>
+       
 
       </ul>
       <hr/>
-      <h3><%= chart1 %></h3>
+      <h3> Tweets Data Analysis</h3>
+      <ul>
+        
+  
+        <li style="width:800px; height:450px;">
+        <canvas id="chart3"></canvas>
+        </li>
+        <li style="width:800px; height:450px;">
+        <canvas id="chart4"></canvas>
+        </li>
+
+      </ul>
+
+      <hr/>
+      <h3>Data show </h3>
+      <h4><%= chart1 %></h4>
       <p><%= suburbs_avg %></p>
       <p><%= scores_avg %></p>
-      <h3><%= chart2 %></h3>
+      <h4><%= chart2 %></h4>
+      <p><%= suburbs_high %></p>
+      <p><%= scores_high %></p>
+      <h4><%= chart3 %></h4>
+      <p><%= suburbs_low %></p>
+      <p><%= scores_low %></p>
+      <h4><%= chart4 %></h4>
       <p><%= suburb_tweets %></p>
       <p><%= scores_tweets %></p>
-  
-
-
 
 
       <br/><br/>
@@ -52,16 +71,20 @@
 <script type='text/javascript'>
 //read all data 
 var scor_num = <%- (scores_avg) %>
-
 var suburbs = <%- suburbs_avg %>
-
 var chart1 = <%- JSON.stringify(chart1) %>
 
-var scor_num2 = <%- scores_tweets %>
-
-var suburbs2 = <%- suburb_tweets %>
-
+var scor_num2 = <%- (scores_high) %>
+var suburbs2 = <%- suburbs_high %>
 var chart2 = <%- JSON.stringify(chart2) %>
+
+var scor_num3 = <%- (scores_low) %>
+var suburbs3 = <%- suburbs_low %>
+var chart3 = <%- JSON.stringify(chart3) %>
+
+var scor_num4 = <%- scores_tweets %>
+var suburbs4 = <%- suburb_tweets %>
+var chart4 = <%- JSON.stringify(chart4) %>
 
 var ctx1 = document.getElementById("chart1");
 var chart1 = new Chart(ctx1, {
@@ -117,6 +140,100 @@ var chart2 = new Chart(ctx2, {
         datasets: [{
             label: chart2,
             data: scor_num2,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+var ctx3 = document.getElementById("chart3");
+var chart3 = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: suburbs3,
+        datasets: [{
+            label: chart3,
+            data: scor_num3,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+var ctx4 = document.getElementById("chart4");
+var chart4 = new Chart(ctx4, {
+    type: 'bar',
+    data: {
+        labels: suburbs4,
+        datasets: [{
+            label: chart4,
+            data: scor_num4,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.8)',
                 'rgba(54, 162, 235, 0.8)',
