@@ -15,52 +15,14 @@
         sudo: yes
         shell: rm -r comp90024-australiacityanalytics
 
-      - name: Get the source code from git
-        shell: git clone https://kaiqiypublic:kaiqiypublicpw@bitbucket.org/xingh1/comp90024-australiacityanalytics.git
-
-
       - name: Install the package "git"
         sudo: yes
         apt:
           name: git
           state: present
 
-      - name: Install nginx
-        ignore_errors: True
-        sudo: yes
-        shell: apt-get install nginx
-
-      - name: configure default file 
-        sudo: yes
-        shell: rm /etc/nginx/sites-available/default
-
-      - name: configure default file 
-        sudo: yes
-        shell: touch /etc/nginx/sites-available/default
-
-      - name: add content to the default
-        sudo: yes
-        shell: |
-          echo "server {" >> /etc/nginx/sites-available/default
-          echo "    listen 80;" >> /etc/nginx/sites-available/default
-          echo "    server_name {{ ansible_default_ipv4.address }};" >> /etc/nginx/sites-available/default
-          echo "    location / {" >> /etc/nginx/sites-available/default
-          echo "        proxy_pass http://{{ ansible_default_ipv4.address }}:3000;" >> /etc/nginx/sites-available/default
-          echo "        proxy_http_version 1.1;" >> /etc/nginx/sites-available/default
-          echo "        proxy_set_header Upgrade \$http_upgrade;" >> /etc/nginx/sites-available/default
-          echo "        proxy_set_header Connection 'upgrade';" >> /etc/nginx/sites-available/default
-          echo "        proxy_set_header Host \$host;" >> /etc/nginx/sites-available/default
-          echo "        proxy_cache_bypass \$http_upgrade;" >> /etc/nginx/sites-available/default
-          echo "    }" >> /etc/nginx/sites-available/default
-          echo "}" >> /etc/nginx/sites-available/default
-
-      - name: restart nginx
-        sudo: yes
-        shell: service nginx restart
-
-      - name: allow nginx to pass firewall
-        sudo: yes
-        shell: ufw allow 'Nginx HTTP'
+      - name: Get the source code from git
+        shell: git clone https://kaiqiypublic:kaiqiypublicpw@bitbucket.org/xingh1/comp90024-australiacityanalytics.git
 
       - name: install dependencies
         shell: cd comp90024-australiacityanalytics/WebApplication && npm install
