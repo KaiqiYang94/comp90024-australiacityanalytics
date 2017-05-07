@@ -10,11 +10,11 @@
         <li><a href="/scenarios">Life Satisfaction</a></li>
         
         <li><a href="/scenarios/ieo">IEO</a></li>
-        <li><a href="/scenarios/ier">Wealth</a></li>
+        <li><a href="/scenarios/ier">Wealth VS Trump</a></li>
         <li class="active"><a href="#">Poor Health</a></li>
         
         <li><a href="/scenarios/volunteer">Volunteer Work</a></li>
-        <li><a href="/scenarios/trump">Trump</a></li>
+        
       </ul><br/>
     </div>
     
@@ -116,7 +116,9 @@ var chart1 = new Chart(ctx1, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false,
+                    min: 20,
+                    max: 30
                 }
             }]
         }

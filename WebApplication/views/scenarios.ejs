@@ -9,10 +9,10 @@
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#">Life Satisfaction</a></li>
         <li><a href="/scenarios/ieo">IEO</a></li>
-        <li><a href="/scenarios/ier">Wealth</a></li>
+        <li><a href="/scenarios/ier">Wealth VS Trump</a></li>
         <li><a href="/scenarios/health">Poor Health</a></li>
         <li><a href="/scenarios/volunteer">Volunteer Work</a></li>
-        <li><a href="/scenarios/trump">Trump</a></li>
+        
       </ul><br/>
     </div>
 
@@ -30,6 +30,9 @@
         <li style="width:800px; height:450px;">
         <canvas id="chart2"></canvas>
         </li>
+        <li style="width:800px; height:450px;">
+        <canvas id="chart3"></canvas>
+        </li>
        
 
       </ul>
@@ -38,9 +41,7 @@
       <ul>
         
   
-        <li style="width:800px; height:450px;">
-        <canvas id="chart3"></canvas>
-        </li>
+       
         <li style="width:800px; height:450px;">
         <canvas id="chart4"></canvas>
         </li>
@@ -125,7 +126,9 @@ var chart1 = new Chart(ctx1, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false,
+                    min: 80.000,
+                    max: 80.3   
                 }
             }]
         }
@@ -171,7 +174,9 @@ var chart2 = new Chart(ctx2, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false,
+                    min: 70,
+                    max: 72
                 }
             }]
         }
@@ -218,7 +223,9 @@ var chart3 = new Chart(ctx3, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false,
+                    min: 1.5,
+                    max: 2.5
                 }
             }]
         }
