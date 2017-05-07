@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var rp = require('request-promise');
 
 
 /* GET home page. */
@@ -8,6 +9,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Australia City Analytics' });
 });
 
+//for life satisfaction page
+//data need: 1. aurin- average
+//           2. aurin - high
+//           3. aurin - low
+//           4. tweets- semantic
 router.get('/scenarios', function(req, res, next) {
   var suburbs = []
   var scores = []
@@ -39,24 +45,34 @@ router.get('/scenarios', function(req, res, next) {
  
 });
 
+//for IEO page
+//data need: 1. aurin- 
+//           2. tweets- semantic
 router.get('/scenarios/ieo', function(req, res, next) {
   
  res.render('ieo', { title: 'IEO' });
 });
 
-
+//for IER(Wealth) page
+//data need: 1. aurin- 
+//           2. tweets- positive
+//           3. tweets- negative
 router.get('/scenarios/ier', function(req, res, next) {
   
  res.render('ier', { title: 'IER' });
 });
 
-
+//for health page
+//data need: 1. aurin- 
+//           2. tweets- topic
 router.get('/scenarios/health', function(req, res, next) {
   
  res.render('health', { title: 'Health' });
 });
 
-
+//for Volunteer page
+//data need: 1. aurin- 
+//           2. tweets- semantic
 router.get('/scenarios/volunteer', function(req, res, next) {
   
  res.render('volunteer', { title: 'volunteer' });
