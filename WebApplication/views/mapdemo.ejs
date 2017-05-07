@@ -1,7 +1,6 @@
 
 <% include ./layout %>
 
-
 <div id="googleMap" style="width:100%;height:400px;"></div>
 
 
@@ -19,16 +18,49 @@
 	map.data.loadGeoJson('http://data.gov.au/geoserver/vic-suburb-locality-boundaries-psma-administrative-boundaries/wfs?request=GetFeature&typeName=af33dd8c_0534_4e18_9245_fc64440f742e&outputFormat=json');
 	// map.data.loadGeoJson('/VICSuburbs.json');
 
-	map.data.setStyle({
-	  // fillColor: 'green',
-	  fillColor: 'rgb(255, 0, 255)',
+    map.data.setStyle(function(feature) {
+      var color = 'gray';
+      if (feature.getProperty('isColorful')) {
+        color = 'yellow';
+      }
+      return /** @type {google.maps.Data.StyleOptions} */({
+        fillColor: color,
+        strokeColor: color,
+        strokeWeight: 2
+      });
+    });
 
-	  strokeWeight: 1
-	});
+    map.data.addListener('mouseover', function(event) {
+  		map.data.revertStyle();
+      	map.data.overrideStyle(event.feature, {strokeWeight: 8});
+    });
+
+    map.data.addListener('mouseout', function(event) {
+      	map.data.revertStyle();
+    });
+
+  	var infoWindow;
+
+    infoWindow = new google.maps.InfoWindow;
 
 	map.data.addListener('click', function (event) {
+		if(event.feature.getProperty('isColorful')) 
+		{
+			event.feature.setProperty('isColorful', false);
+		}
+		else
+		{
+			event.feature.setProperty('isColorful', true);	
+		}
 	    var suburb = event.feature.getProperty('vic_loca_2');
-	    console.log("name is " + suburb);
+	    console.log(" The name of the suburb is " + suburb);
+
+        // Replace the info window's content and position.
+        infoWindow.setContent("<p class='map-popup-content' > The name of the suburb is  " + suburb +"</p>");
+        infoWindow.setPosition(event.latLng);
+
+        infoWindow.open(map);
+
 	});
 
 	}
@@ -77,4 +109,3 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-
