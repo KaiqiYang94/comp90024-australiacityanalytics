@@ -28,7 +28,9 @@ def text_sentiment_analysis(text):
 	response = requests.request("POST", url, data=payload, headers=headers)
 	try:
 		if not response.text is None:
+
 			result = json.loads(response.text)
+			result = result.replace("Class\\", "Class")
 			if result['status']['msg'] == 'OK':
 				score_tag = result['score_tag']
 				positive_result = ['P+', 'P']
@@ -57,6 +59,7 @@ def topic_extraction(txt):
 	try:
 		if not response.text is None:
 			result = json.loads(response.text)
+			result = result.replace("Class\\", "Class")
 			if result['status']['msg'] == 'OK':
 				#parse entities
 				entities = result['entity_list']
