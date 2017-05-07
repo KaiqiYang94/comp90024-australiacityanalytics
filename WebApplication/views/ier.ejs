@@ -10,17 +10,17 @@
         <li><a href="/scenarios">Life Satisfaction</a></li>
         
         <li><a href="/scenarios/ieo">IEO</a></li>
-        <li class="active"><a href="#">Wealth</a></li>
+        <li class="active"><a href="#">Wealth VS Trump</a></li>
        
         <li><a href="/scenarios/health">Poor Health</a></li>
         <li><a href="/scenarios/volunteer">Volunteer Work</a></li>
-        <li><a href="/scenarios/trump">Trump</a></li>
+        
       </ul><br/>
     </div>
 
 
     <div class="col-sm-9">
-      <h2>Melbourn residents' Wealth Anaysis</h2>
+      <h2>Melbourn residents' Wealth VS Trump Anaysis</h2>
       <hr/>
       <h3>Aurin Data</h3>
 
@@ -116,7 +116,9 @@ var chart1 = new Chart(ctx1, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false,
+                    min:1100,
+                    max:1150
                 }
             }]
         }

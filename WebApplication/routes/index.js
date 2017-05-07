@@ -162,8 +162,8 @@ router.get('/scenarios/ier', function(req, res, next) {
     var scores_neg_tweets = []
 
     var aurin_url = 'http://admin:password@127.0.0.1:5984/dataset_ier/_design/ier_analysis/_view/wealth_score?limit=10;descending=True'
-    var tweets_pos_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/positive_rate?limit=10;descending=True'
-    var tweets_neg_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/negative_rate?limit=10;descending=True'
+    var trump_pos_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/trump_positive_rate?limit=10;descending=True'
+    var trump_neg_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/trump_negative_rate?limit=10;descending=True'
 
     // read 1
     rp(aurin_url)
@@ -177,7 +177,7 @@ router.get('/scenarios/ier', function(req, res, next) {
                 scores_aurin.push(score);
             }
             // read 2
-            return rp(tweets_pos_url)
+            return rp(trump_pos_url)
         })
         .then(function(response) {
             var obj = JSON.parse(response);
@@ -189,7 +189,7 @@ router.get('/scenarios/ier', function(req, res, next) {
                 scores_pos_tweets.push(score);
             }
             // read 2
-            return rp(tweets_neg_url)
+            return rp(trump_neg_url)
         })
 
     .then(function(response) {
@@ -205,10 +205,10 @@ router.get('/scenarios/ier', function(req, res, next) {
             chart1: 'AURIN- Top 10 suburbs with highest wealth score',
             suburbs_aurin: JSON.stringify(suburbs_aurin),
             scores_aurin: JSON.stringify(scores_aurin),
-            chart2: 'TWEETS- TOP 10 Cities with highest positive attitudes',
+            chart2: 'TWEETS- Top 10 suburbs with highest positive rate of Donald Trump',
             suburb_pos_tweets: JSON.stringify(suburb_pos_tweets),
             scores_pos_tweets: JSON.stringify(scores_pos_tweets),
-            chart3: 'TWEETS- TOP 10 Cities with highest negative attitudes',
+            chart3: 'TWEETS- Top 10 suburbs with highest negative rate of Donald Trump',
             suburb_neg_tweets: JSON.stringify(suburb_neg_tweets),
             scores_neg_tweets: JSON.stringify(scores_neg_tweets)
         });
@@ -331,56 +331,6 @@ router.get('/scenarios/volunteer', function(req, res, next) {
                 chart2: 'TWEETS- TOP 10 Cities with positive attitudes',
                 suburb_tweets: JSON.stringify(suburb_tweets),
                 scores_tweets: JSON.stringify(scores_tweets)
-            });
-            return Promise.resolve();
-
-        }).catch(function(err) { console.log("error: " + err) });
-});
-
-//for Trump page
-//data need: 1. tweets- trump position
-//           2. tweets- trump negative
-router.get('/scenarios/trump', function(req, res, next) {
-
-
-    var suburbs_pos = []
-    var scores_pos = []
-    var suburb_neg = []
-    var scores_neg = []
-
-    var trump_pos_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/trump_positive_rate?limit=10;descending=True'
-    var trump_neg_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/trump_negative_rate?limit=10;descending=True'
-
-    // read 1
-    rp(trump_pos_url)
-        .then(function(response) {
-            var obj = JSON.parse(response);
-            for (var row in obj['rows']) {
-
-                var score = obj['rows'][row]['key'];
-                var suburb = obj['rows'][row]['value'];
-                suburbs_pos.push(suburb);
-                scores_pos.push(score);
-            }
-            // read 2
-            return rp(trump_neg_url)
-        })
-        .then(function(response) {
-            var obj = JSON.parse(response);
-            for (var row in obj['rows']) {
-
-                var score = obj['rows'][row]['key'];
-                var suburb = obj['rows'][row]['value'];
-                suburb_neg.push(suburb);
-                scores_neg.push(score);
-            }
-            res.render('trump', {
-                chart1: 'AURIN- Top 10 suburbs with highest positive rate of Donald Trump',
-                suburbs_pos: JSON.stringify(suburbs_pos),
-                scores_pos: JSON.stringify(scores_pos),
-                chart2: 'TWEETS- TOP 10 Cities with highest negative rate of Donald Trump',
-                suburb_neg: JSON.stringify(suburb_neg),
-                scores_neg: JSON.stringify(scores_neg)
             });
             return Promise.resolve();
 
