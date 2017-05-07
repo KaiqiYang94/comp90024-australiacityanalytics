@@ -23,15 +23,16 @@
 
       <ul>
         
-        <li style="width:700px; height:700px;">
+        <li style="width:800px; height:700px;">
         <canvas id="myChart"></canvas>
         </li>
 
       </ul>
       <hr/>
       <h3><%= title %></h3>
-      <p><%= scores %></p>
       <p><%= suburbs %></p>
+      <p><%= scores %></p>
+  
 
 
 
@@ -43,21 +44,20 @@
 
 <script type='text/javascript'>
 
-var number = <%- JSON.stringify(scores) %>
+var scor_num = <%- (scores) %>
 
-var location = <%- JSON.stringify(suburbs) %>
+var suburbs = <%- suburbs %>
 
-
-
+var title = <%- JSON.stringify(title) %>
 
 var ctx = document.getElementById("myChart");
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ["q","q","q","q","q","q","q","q","q","q"],
+        labels: suburbs,
         datasets: [{
-            label: '# of Votes',
-            data: number,
+            label: title,
+            data: scor_num,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.8)',
                 'rgba(54, 162, 235, 0.8)',
