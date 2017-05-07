@@ -2,6 +2,7 @@ import couchdb
 from urllib2 import urlopen
 import json
 import requests
+import traceback
 
 def getSuburb(lat, lon):
     url = "http://maps.googleapis.com/maps/api/geocode/json?"
@@ -25,20 +26,25 @@ def text_sentiment_analysis(text):
 	headers = {'content-type': 'application/x-www-form-urlencoded'}
 	
 	response = requests.request("POST", url, data=payload, headers=headers)
-	
-	if not response.text is None:
-		result = json.loads(response.text)
-		if result['status']['msg'] == 'OK':
-			score_tag = result['score_tag']
-			positive_result = ['P+', 'P']
-			negative_result = ['N+', 'N']
-			neutral_result = ['NEU', 'NONE']
-			if score_tag in positive_result:
-				return 'positive'
-			elif score_tag in negative_result:
-				return 'negative'
-			else:
-				return 'neutral'
+	try:
+		if not response.text is None:
+			result = json.loads(response.text)
+			if result['status']['msg'] == 'OK':
+				score_tag = result['score_tag']
+				positive_result = ['P+', 'P']
+				negative_result = ['N+', 'N']
+				neutral_result = ['NEU', 'NONE']
+				if score_tag in positive_result:
+					return 'positive'
+				elif score_tag in negative_result:
+					return 'negative'
+				else:
+					return 'neutral'
+	except Exception as e:
+		print("----------------text_sentiment_analysis----------------")
+		print(e)
+		print(response.text)
+		traceback.print_exc()
 		
 def topic_extraction(txt):
 	topics = set()
@@ -48,17 +54,23 @@ def topic_extraction(txt):
 	headers = {'content-type': 'application/x-www-form-urlencoded'}
 	response = requests.request("POST", url, data=payload, headers=headers)
 	
-	if not response.text is None:
-		result = json.loads(response.text)
-		if result['status']['msg'] == 'OK':
-			#parse entities
-			entities = result['entity_list']
-			for entity in entities:
-				topics.add(entity['form'])
-			#parse concepts:
-			concepts = result['concept_list']
-			for concept in concepts:
-				topics.add(concept['form'])
+	try:
+		if not response.text is None:
+			result = json.loads(response.text)
+			if result['status']['msg'] == 'OK':
+				#parse entities
+				entities = result['entity_list']
+				for entity in entities:
+					topics.add(entity['form'])
+				#parse concepts:
+				concepts = result['concept_list']
+				for concept in concepts:
+					topics.add(concept['form'])
+	except Exception as e:
+		print("---------------topic_extraction-----------------")
+		print(e)
+		print(response.text)
+		traceback.print_exc()
 	return list(topics)	
 
 couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
