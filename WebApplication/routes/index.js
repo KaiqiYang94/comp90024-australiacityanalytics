@@ -359,7 +359,7 @@ router.get('/mapdemo', function(req, res, next) {
 
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
-                all_data.push({ 'name': suburb, "lf_avg": score })
+                all_data.push({ 'name': suburb.toUpperCase(), "lf_avg": score })
             }
             // read 2
             return rp(ieo_url)
@@ -371,7 +371,7 @@ router.get('/mapdemo', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 for (var ele in all_data) {
-                    if (all_data[ele]['name'] == suburb) {
+                    if (all_data[ele]['name'] == suburb.toUpperCase()) {
                         all_data[ele]['ieo_avg'] = score;
                     }
                 }
@@ -386,7 +386,7 @@ router.get('/mapdemo', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 for (var ele in all_data) {
-                    if (all_data[ele]['name'] == suburb) {
+                    if (all_data[ele]['name'] == suburb.toUpperCase()) {
                         all_data[ele]['ier_avg'] = score;
                     }
                 }
@@ -402,7 +402,7 @@ router.get('/mapdemo', function(req, res, next) {
             var score = obj['rows'][row]['key'];
             var suburb = obj['rows'][row]['value'];
             for (var ele in all_data) {
-                if (all_data[ele]['name'] == suburb) {
+                if (all_data[ele]['name'] == suburb.toUpperCase()) {
                     all_data[ele]['tweets_avg'] = score;
                 }
             }
