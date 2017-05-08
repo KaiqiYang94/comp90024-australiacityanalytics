@@ -125,14 +125,15 @@ def topic_extraction(txt, key):
 	return list(topics)	
 
 def meaningcloud_utilization(text):
-	for key in meaningcloud_keys:
+	while meaningcloud_count < meaningcloud_len:
+		key = meaningcloud_keys[meaningcloud_count]
 		try:
 			sentiment = text_sentiment_analysis(text, key)
 			topics = topic_extraction(text, key)
-			break
+			return sentiment, topics
 		except:
-			continue
-	return sentiment, topics
+			meaningcloud_count = meaningcloud_count + 1
+	exit()
 
 couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['tweets']
