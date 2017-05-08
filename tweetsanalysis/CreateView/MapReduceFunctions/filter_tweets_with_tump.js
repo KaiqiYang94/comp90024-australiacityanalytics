@@ -20,7 +20,7 @@ function findTopics(topics, doc){
   var tweet = doc.text.toLowerCase();
   tweet_words = tweet.split(" ")
 	topics.forEach(function(t){
-		if (tweet_words.indexOf(t) > -1){
+		if (tweet.indexOf(t) > -1){
 			hasTopic = true;
 		}
 	});
