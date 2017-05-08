@@ -9,3 +9,11 @@ dataset_results = dataset_db.view(
 for row in dataset_results:
     print row.key
     print row.value
+	
+print "================================================"	
+# get 10 suburbs with LOWEST education/ocupation score
+dataset_results = dataset_db.view(
+    'ieo_analysis/ieo_score', limit=20)
+for row in dataset_results:
+    print row.key
+    print row.value
