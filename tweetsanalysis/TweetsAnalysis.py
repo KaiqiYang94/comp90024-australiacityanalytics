@@ -29,7 +29,6 @@ google_map_keys = ["AIzaSyAd-xrcEU7Na0p-kDy9_lPvBP9q2Jnna-c",
 		"AIzaSyBmQMbvKpoNkaYEWJU18niAj1mxd7zn_4s",
 		"AIzaSyBcb6u3lAI4a7kehIY6w5hOlLTrBzx-uew"]
 
-#13 keys
 meaningcloud_keys=["afaf04e25bc92f7d3981fbc4790fa05f",
 		"24d637371d7361126017306a854a5fb3",
 		"9a92b9afa6ea4dc0dddc7139e446c2f2",
@@ -42,9 +41,17 @@ meaningcloud_keys=["afaf04e25bc92f7d3981fbc4790fa05f",
 		"cd82aa3c3c0e4eb8c4e65f5135f0148c",
 		"16e45143d271828a776c57a2aa6131ee",
 		"53d91ded21179441115c495bbcf20b37",
-		"3540b6de695ce61ed531958631f39349"]		
+		"3540b6de695ce61ed531958631f39349",
+		"e24a9cbd480d755d22724cd8ea264222",
+		"1fab188d05d431540f52cebdc06c9bfe",
+		"24ba8e6db4b406210a2c69aaddd6a989",
+		"ac836a76eb70944ed1faf9b43f90dfcd",
+		"5ac94e9c00bb632ce6be5920493e6cd1",
+		"7656812a83a147bd09863e78836fbb9a"]		
 google_count = 0
 meaningcloud_count = 0
+meaningcloud_len = len(meaningcloud_keys)
+google_len = len(google_map_keys)
 
 def getSuburb(lat, lon, key):
     url = "https://maps.googleapis.com/maps/api/geocode/json?"
@@ -117,6 +124,16 @@ def topic_extraction(txt, key):
 		traceback.print_exc()
 	return list(topics)	
 
+def meaningcloud_utilization(text):
+	for key in meaningcloud_keys:
+		try:
+			sentiment = text_sentiment_analysis(text, key)
+			topics = topic_extraction(text, key)
+			break
+		except:
+			continue
+	return sentiment, topics
+
 couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
 db = couch['tweets']
 
@@ -126,31 +143,17 @@ for row in results:
 	coordinates = row.value[0]
 	lon = coordinates[0]
 	lat = coordinates[1]
-	key = google_map_keys[google_count%20]
+	key = google_map_keys[google_count%google_len]
 	try:
 		suburb, state, country = getSuburb(lat, lon, key)
 	except Exception as e:
 		google_count = google_count +1
-		key = google_map_keys[google_count%20]
+		key = google_map_keys[google_count%google_len]
 		suburb, state, country = getSuburb(lat, lon, key)
 	
-	###sentiment analysis
-	text = row.value[1]
-	key = meaningcloud_keys[meaningcloud_count%13]
-	try:
-		sentiment = text_sentiment_analysis(text, key)
-	except Exception as e:
-		meaningcloud_count = meaningcloud_count + 1
-		key = meaningcloud_keys[meaningcloud_count%13]
-		sentiment = text_sentiment_analysis(text, key)
-	
-	###topic extraction
-	try:
-		topics = topic_extraction(text, key)
-	except:
-		meaningcloud_count = meaningcloud_count + 1
-		key = meaningcloud_keys[meaningcloud_count%13]
-		topics = topic_extraction(text, key)
+	###sentiment analysis and topic extraction
+	text = row.value[1]	
+	sentiment, topics = meaningcloud_utilization(text)
 	
 	###update to add sentiment and suburb info into database
 	doc_id = row.key
