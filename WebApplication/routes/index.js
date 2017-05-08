@@ -101,7 +101,7 @@ router.get('/scenarios', function(req, res, next) {
 
 //for IEO page
 //data need: 1. aurin- 
-//           2. tweets- semantic
+//           2. tweets- vagour words
 router.get('/scenarios/ieo', function(req, res, next) {
     var suburbs_aurin = []
     var scores_aurin = []
@@ -109,7 +109,7 @@ router.get('/scenarios/ieo', function(req, res, next) {
     var scores_tweets = []
 
     var aurin_url = 'http://admin:password@127.0.0.1:5984/dataset_ieo/_design/ieo_analysis/_view/ieo_score?limit=10;descending=True'
-    var tweets_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/positive_rate?limit=10;descending=True'
+    var tweets_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/vulgar_rate?limit=10;descending=True'
 
     // read 1
     rp(aurin_url)
@@ -138,7 +138,7 @@ router.get('/scenarios/ieo', function(req, res, next) {
                 chart1: 'AURIN- Top 10 suburbs with highest education/ocupation score',
                 suburbs_aurin: JSON.stringify(suburbs_aurin),
                 scores_aurin: JSON.stringify(scores_aurin),
-                chart2: 'TWEETS- TOP 10 Cities with positive attitudes',
+                chart2: 'TWEETS- TOP 10 Cities with highest vulgar rate',
                 suburb_tweets: JSON.stringify(suburb_tweets),
                 scores_tweets: JSON.stringify(scores_tweets)
             });
