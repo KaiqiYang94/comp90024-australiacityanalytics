@@ -4,9 +4,33 @@ import json
 import requests
 import traceback
 
-def getSuburb(lat, lon):
-    url = "http://maps.googleapis.com/maps/api/geocode/json?"
-    url += "latlng=%s,%s&sensor=false" % (lat, lon)
+# 20 keys
+google_map_keys = ["AIzaSyAd-xrcEU7Na0p-kDy9_lPvBP9q2Jnna-c",
+		"AIzaSyBCXQo12KuAOzL3Ksjt1i8TxdrJDrEPBvE",
+		"AIzaSyCGWsGd97Xbp0dfVuMAwYvjQ2LIEvxLXXs",
+		"AIzaSyASxKaE8x2uCocZbNm8HtMtVbxXLXHYUn8",
+		"AIzaSyBLx39tWERh65fKTAdPcJ50znRJwELTob4",
+		"AIzaSyCp8G1x6q8eDjlV5hpRZx8niKYXCfJBfok",
+		"AIzaSyBGj7wIEJt9N7eWr8LI08uEhXmCmlGh7kk",
+		"AIzaSyCYEXa33m9cSCbQP7YFyEDML4x9Qr9cixI",
+		"AIzaSyBWvvoyjUMih-e7ZFX_8cBMKNSWUmA6dbQ",
+		"AIzaSyC7n1egEvbh4u0hpSTxHCSezIYWgTa_VEc",
+		"AIzaSyBCK6iSUsEoGGSKvfro254AmeDdci9O9nA",
+		"AIzaSyBRdD6HuST3DivbEhcyIq0cVjq8UOIyu8E",
+		"AIzaSyAyqF3y-N4py1egKp2UnBsJy3CnNSwZWec",
+		"AIzaSyART7M5Q0kT85JHOpsjy1hrJQb7vJ5Yuuo",
+		"AIzaSyBZd2pNTKxmbgph7U2-CEyEQWi5MMQqA08",
+		"AIzaSyBNDJWy8M1DWAPeCHcdu28Ql1jHqKMOQrA",
+		"AIzaSyDbRJW6xvL9e6OPVzsYVPDNuA7xMHP0TdE",
+		"AIzaSyCfG13_SI-ltbvaVD0V8Ic3LHWe21lW0wc",
+		"AIzaSyBmQMbvKpoNkaYEWJU18niAj1mxd7zn_4s",
+		"AIzaSyBcb6u3lAI4a7kehIY6w5hOlLTrBzx-uew"]
+		
+count = 0
+
+def getSuburb(lat, lon, key):
+    url = "https://maps.googleapis.com/maps/api/geocode/json?"
+    url += "latlng=%s,%s&key=%s" % (lat, lon, key)
     v = urlopen(url).read()
     j = json.loads(v)
     components = j['results'][0]['address_components']
@@ -84,7 +108,13 @@ for row in results:
 	coordinates = row.value[0]
 	lon = coordinates[0]
 	lat = coordinates[1]
-	suburb, state, country = getSuburb(lat, lon)
+	key = google_map_keys[count%20]
+	try:
+		suburb, state, country = getSuburb(lat, lon, key)
+	except Exception as e:
+		count = count +1
+		key = google_map_keys[count%20]
+		suburb, state, country = getSuburb(lat, lon, key)
 	
 	###sentiment analysis
 	text = row.value[1]
