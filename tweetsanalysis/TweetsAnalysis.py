@@ -130,7 +130,7 @@ def meaningcloud_utilization(text, count):
 		try:
 			sentiment = text_sentiment_analysis(text, key)
 			topics = topic_extraction(text, key)
-			return sentiment, topics
+			return sentiment, topics, count
 		except:
 			count = count + 1
 	exit()
@@ -154,7 +154,7 @@ for row in results:
 	
 	###sentiment analysis and topic extraction
 	text = row.value[1]	
-	sentiment, topics = meaningcloud_utilization(text, meaningcloud_count)
+	sentiment, topics, meaningcloud_count = meaningcloud_utilization(text, meaningcloud_count)
 	
 	###update to add sentiment and suburb info into database
 	doc_id = row.key
