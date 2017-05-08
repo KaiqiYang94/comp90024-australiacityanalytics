@@ -3,6 +3,9 @@ from urllib2 import urlopen
 import json
 import requests
 import traceback
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8') 
 
 # 20 keys
 google_map_keys = ["AIzaSyAd-xrcEU7Na0p-kDy9_lPvBP9q2Jnna-c",
@@ -25,8 +28,23 @@ google_map_keys = ["AIzaSyAd-xrcEU7Na0p-kDy9_lPvBP9q2Jnna-c",
 		"AIzaSyCfG13_SI-ltbvaVD0V8Ic3LHWe21lW0wc",
 		"AIzaSyBmQMbvKpoNkaYEWJU18niAj1mxd7zn_4s",
 		"AIzaSyBcb6u3lAI4a7kehIY6w5hOlLTrBzx-uew"]
-		
-count = 0
+
+#13 keys
+meaningcloud_keys=["afaf04e25bc92f7d3981fbc4790fa05f",
+		"24d637371d7361126017306a854a5fb3",
+		"9a92b9afa6ea4dc0dddc7139e446c2f2",
+		"4223e7a9714645c6f2bab8f489101534",
+		"df196af806319c62c4d8e3cf8b9b8a32",
+		"1ca99d6ee86674ff760edcc27d0c396e",
+		"2513eab559e8f00fe555587c7fcf7e33",
+		"4798949c53da78ca3778b0c075f407bd",
+		"eb127df802db36b5ad36717482ea9b54",
+		"cd82aa3c3c0e4eb8c4e65f5135f0148c",
+		"16e45143d271828a776c57a2aa6131ee",
+		"53d91ded21179441115c495bbcf20b37",
+		"3540b6de695ce61ed531958631f39349"]		
+google_count = 0
+meaningcloud_count = 0
 
 def getSuburb(lat, lon, key):
     url = "https://maps.googleapis.com/maps/api/geocode/json?"
@@ -44,9 +62,9 @@ def getSuburb(lat, lon, key):
 		    suburb = c['long_name']
     return suburb, state, country
 	
-def text_sentiment_analysis(text):
+def text_sentiment_analysis(text, key):
 	url = "http://api.meaningcloud.com/sentiment-2.1"
-	payload = "key=afaf04e25bc92f7d3981fbc4790fa05f&lang=en&txt=%s&model=general" % {text}
+	payload = "key=%s&lang=en&txt=%s&model=general" % (key, text)
 	headers = {'content-type': 'application/x-www-form-urlencoded'}
 	
 	response = requests.request("POST", url, data=payload, headers=headers)
@@ -71,11 +89,11 @@ def text_sentiment_analysis(text):
 		print(response.text)
 		traceback.print_exc()
 		
-def topic_extraction(txt):
+def topic_extraction(txt, key):
 	topics = set()
 	
 	url = "http://api.meaningcloud.com/topics-2.0"
-	payload = "key=afaf04e25bc92f7d3981fbc4790fa05f&lang=en&txt=%s&tt=a" % {txt}
+	payload = "key=%s&lang=en&txt=%s&tt=a" % (key, txt)
 	headers = {'content-type': 'application/x-www-form-urlencoded'}
 	response = requests.request("POST", url, data=payload, headers=headers)
 	
@@ -108,20 +126,31 @@ for row in results:
 	coordinates = row.value[0]
 	lon = coordinates[0]
 	lat = coordinates[1]
-	key = google_map_keys[count%20]
+	key = google_map_keys[google_count%20]
 	try:
 		suburb, state, country = getSuburb(lat, lon, key)
 	except Exception as e:
-		count = count +1
-		key = google_map_keys[count%20]
+		google_count = google_count +1
+		key = google_map_keys[google_count%20]
 		suburb, state, country = getSuburb(lat, lon, key)
 	
 	###sentiment analysis
 	text = row.value[1]
-	sentiment = text_sentiment_analysis(text)
+	key = meaningcloud_keys[meaningcloud_count%13]
+	try:
+		sentiment = text_sentiment_analysis(text, key)
+	except Exception as e:
+		meaningcloud_count = meaningcloud_count + 1
+		key = meaningcloud_keys[meaningcloud_count%13]
+		sentiment = text_sentiment_analysis(text, key)
 	
 	###topic extraction
-	topics = topic_extraction(text)
+	try:
+		topics = topic_extraction(text, key)
+	except:
+		meaningcloud_count = meaningcloud_count + 1
+		key = meaningcloud_keys[meaningcloud_count%13]
+		topics = topic_extraction(text, key)
 	
 	###update to add sentiment and suburb info into database
 	doc_id = row.key
