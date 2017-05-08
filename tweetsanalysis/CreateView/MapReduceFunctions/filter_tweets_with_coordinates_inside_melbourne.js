@@ -6,10 +6,15 @@
 
 function (doc) {
   if(!doc.addressed && doc.coordinates){
-    lon = doc.coordinates.coordinates[0];
-    lat = doc.coordinates.coordinates[1];
+    if(doc.coordinates.coordinates){
+	  lon = doc.coordinates.coordinates[0];
+	  lat = doc.coordinates.coordinates[1];
+    }else{
+      lon = doc.coordinates[0];
+      lat = doc.coordinates[1];
+    }
     if(insideMelbourne(lat,lon)){
-      emit(doc._id, [doc.coordinates.coordinates, doc.text]);
+      emit(doc._id, [[lon, lat], doc.text]);
     }
   }
 }
