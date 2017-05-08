@@ -124,15 +124,15 @@ def topic_extraction(txt, key):
 		traceback.print_exc()
 	return list(topics)	
 
-def meaningcloud_utilization(text):
-	while meaningcloud_count < meaningcloud_len:
-		key = meaningcloud_keys[meaningcloud_count]
+def meaningcloud_utilization(text, count):
+	while count < meaningcloud_len:
+		key = meaningcloud_keys[count]
 		try:
 			sentiment = text_sentiment_analysis(text, key)
 			topics = topic_extraction(text, key)
 			return sentiment, topics
 		except:
-			meaningcloud_count = meaningcloud_count + 1
+			count = count + 1
 	exit()
 
 couch = couchdb.Server('http://admin:password@127.0.0.1:5984')
@@ -154,7 +154,7 @@ for row in results:
 	
 	###sentiment analysis and topic extraction
 	text = row.value[1]	
-	sentiment, topics = meaningcloud_utilization(text)
+	sentiment, topics = meaningcloud_utilization(text, meaningcloud_count)
 	
 	###update to add sentiment and suburb info into database
 	doc_id = row.key
