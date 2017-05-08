@@ -39,7 +39,7 @@ router.get('/scenarios', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburbs_avg.push(suburb);
-                scores_avg.push(score);
+                scores_avg.push(score.toFixed(2));
             }
             // read 2
             return rp(aurin_high_url)
@@ -51,7 +51,7 @@ router.get('/scenarios', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburbs_high.push(suburb);
-                scores_high.push(score);
+                scores_high.push(score.toFixed(2));
             }
 
             // read 3'
@@ -64,7 +64,7 @@ router.get('/scenarios', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburbs_low.push(suburb);
-                scores_low.push(score);
+                scores_low.push(score.toFixed(2));
             }
             // read 4        
             return rp(tweets_url)
@@ -76,7 +76,7 @@ router.get('/scenarios', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburb_tweets.push(suburb);
-                scores_tweets.push(score);
+                scores_tweets.push(score.toFixed(2));
             }
             res.render('scenarios', {
                 chart1: 'AURIN- TOP 10 Cities of highest Life Satisfaction (Average)',
@@ -120,7 +120,7 @@ router.get('/scenarios/ieo', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburbs_aurin.push(suburb);
-                scores_aurin.push(score);
+                scores_aurin.push(score.toFixed(2));
             }
             // read 2
             return rp(tweets_url)
@@ -132,7 +132,7 @@ router.get('/scenarios/ieo', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburb_tweets.push(suburb);
-                scores_tweets.push(score);
+                scores_tweets.push(score.toFixed(2));
             }
             res.render('ieo', {
                 chart1: 'AURIN- Top 10 suburbs with highest education/ocupation score',
@@ -174,7 +174,7 @@ router.get('/scenarios/ier', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburbs_aurin.push(suburb);
-                scores_aurin.push(score);
+                scores_aurin.push(score.toFixed(2));
             }
             // read 2
             return rp(trump_pos_url)
@@ -186,7 +186,7 @@ router.get('/scenarios/ier', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburb_pos_tweets.push(suburb);
-                scores_pos_tweets.push(score);
+                scores_pos_tweets.push(score.toFixed(2));
             }
             // read 2
             return rp(trump_neg_url)
@@ -199,7 +199,7 @@ router.get('/scenarios/ier', function(req, res, next) {
             var score = obj['rows'][row]['key'];
             var suburb = obj['rows'][row]['value'];
             suburb_neg_tweets.push(suburb);
-            scores_neg_tweets.push(score);
+            scores_neg_tweets.push(score.toFixed(2));
         }
         res.render('ier', {
             chart1: 'AURIN- Top 10 suburbs with highest wealth score',
@@ -244,7 +244,7 @@ router.get('/scenarios/health', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburbs_aurin.push(suburb);
-                scores_aurin.push(score);
+                scores_aurin.push(score.toFixed(2));
             }
             // read 2
             return rp(tweets_pos_url)
@@ -256,7 +256,7 @@ router.get('/scenarios/health', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburb_pos_tweets.push(suburb);
-                scores_pos_tweets.push(score);
+                scores_pos_tweets.push(score.toFixed(2));
             }
             // read 3
             return rp(tweets_neg_url)
@@ -269,7 +269,7 @@ router.get('/scenarios/health', function(req, res, next) {
             var score = obj['rows'][row]['key'];
             var suburb = obj['rows'][row]['value'];
             suburb_neg_tweets.push(suburb);
-            scores_neg_tweets.push(score);
+            scores_neg_tweets.push(score.toFixed(2));
         }
         res.render('health', {
             chart1: 'AURIN- Top 10 suburbs with highest poor self assessed health rate',
@@ -310,7 +310,7 @@ router.get('/scenarios/volunteer', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburbs_aurin.push(suburb);
-                scores_aurin.push(score);
+                scores_aurin.push(score.toFixed(2));
             }
             // read 2
             return rp(tweets_url)
@@ -322,7 +322,7 @@ router.get('/scenarios/volunteer', function(req, res, next) {
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
                 suburb_tweets.push(suburb);
-                scores_tweets.push(score);
+                scores_tweets.push(score.toFixed(2));
             }
             res.render('volunteer', {
                 chart1: 'AURIN- Top 10 suburbs with highest voluntary work rate',
@@ -359,7 +359,7 @@ router.get('/mapdemo', function(req, res, next) {
 
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
-                all_data.push({ 'name': suburb.toUpperCase(), "lf_avg": score })
+                all_data.push({ 'name': suburb.toUpperCase(), "lf_avg": score.toFixed(2) })
             }
             // read 2
             return rp(ieo_url)
@@ -372,7 +372,7 @@ router.get('/mapdemo', function(req, res, next) {
                 var suburb = obj['rows'][row]['value'];
                 for (var ele in all_data) {
                     if (all_data[ele]['name'] == suburb.toUpperCase()) {
-                        all_data[ele]['ieo_avg'] = score;
+                        all_data[ele]['ieo_avg'] = score.toFixed(2);
                     }
                 }
             }
@@ -387,7 +387,7 @@ router.get('/mapdemo', function(req, res, next) {
                 var suburb = obj['rows'][row]['value'];
                 for (var ele in all_data) {
                     if (all_data[ele]['name'] == suburb.toUpperCase()) {
-                        all_data[ele]['ier_avg'] = score;
+                        all_data[ele]['ier_avg'] = score.toFixed(2);
                     }
                 }
             }
@@ -403,7 +403,7 @@ router.get('/mapdemo', function(req, res, next) {
             var suburb = obj['rows'][row]['value'];
             for (var ele in all_data) {
                 if (all_data[ele]['name'] == suburb.toUpperCase()) {
-                    all_data[ele]['tweets_avg'] = score;
+                    all_data[ele]['tweets_avg'] = score.toFixed(2);
                 }
             }
         }
