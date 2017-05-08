@@ -100,27 +100,43 @@ router.get('/scenarios', function(req, res, next) {
 });
 
 //for IEO page
-//data need: 1. aurin- 
-//           2. tweets- vagour words
+//data need: 1. aurin- high education score
+//           2. aurin - low education score 
+//           3. tweets- vagour words
 router.get('/scenarios/ieo', function(req, res, next) {
-    var suburbs_aurin = []
-    var scores_aurin = []
+    var suburbs_high_aurin = []
+    var scores_high_aurin = []
+    var suburbs_low_aurin = []
+    var scores_low_aurin = []
     var suburb_tweets = []
     var scores_tweets = []
 
-    var aurin_url = 'http://admin:password@127.0.0.1:5984/dataset_ieo/_design/ieo_analysis/_view/ieo_score?limit=10;descending=True'
+    var aurin_high_url = 'http://admin:password@127.0.0.1:5984/dataset_ieo/_design/ieo_analysis/_view/ieo_score?limit=10;descending=True'
+    var aurin_low_url = 'http://admin:password@127.0.0.1:5984/dataset_ieo/_design/ieo_analysis/_view/ieo_score?limit=10'
     var tweets_url = 'http://admin:password@127.0.0.1:5984/tweets_summary/_design/tweets_summary/_view/vulgar_rate?limit=10;descending=True'
 
     // read 1
-    rp(aurin_url)
+    rp(aurin_high_url)
         .then(function(response) {
             var obj = JSON.parse(response);
             for (var row in obj['rows']) {
 
                 var score = obj['rows'][row]['key'];
                 var suburb = obj['rows'][row]['value'];
-                suburbs_aurin.push(suburb);
-                scores_aurin.push(score.toFixed(2));
+                suburbs_high_aurin.push(suburb);
+                scores_high_aurin.push(score.toFixed(2));
+            }
+            // read 2
+            return rp(aurin_low_url)
+        })
+        .then(function(response) {
+            var obj = JSON.parse(response);
+            for (var row in obj['rows']) {
+
+                var score = obj['rows'][row]['key'];
+                var suburb = obj['rows'][row]['value'];
+                suburbs_low_aurin.push(suburb);
+                scores_low_aurin.push(score.toFixed(2));
             }
             // read 2
             return rp(tweets_url)
@@ -136,9 +152,12 @@ router.get('/scenarios/ieo', function(req, res, next) {
             }
             res.render('ieo', {
                 chart1: 'AURIN- Top 10 suburbs with highest education/ocupation score',
-                suburbs_aurin: JSON.stringify(suburbs_aurin),
-                scores_aurin: JSON.stringify(scores_aurin),
-                chart2: 'TWEETS- TOP 10 Cities with highest vulgar rate',
+                suburbs_high_aurin: JSON.stringify(suburbs_high_aurin),
+                scores_high_aurin: JSON.stringify(scores_high_aurin),
+                chart2: 'AURIN- TOP 10 Cities with lowest education/ocupation score',
+                suburbs_low_aurin: JSON.stringify(suburbs_low_aurin),
+                scores_low_aurin: JSON.stringify(scores_low_aurin),
+                chart3: 'TWEETS- TOP 10 Cities with highest vulgar rate',
                 suburb_tweets: JSON.stringify(suburb_tweets),
                 scores_tweets: JSON.stringify(scores_tweets)
             });
