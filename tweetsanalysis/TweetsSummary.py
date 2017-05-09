@@ -30,7 +30,7 @@ for row in trump:
 ###health
 health = tweets_db.view('tweets_analysis/filter_tweets_with_health',reduce = True, group_level = 2)
 suburb_health = defaultdict(dict)
-for row in trump:
+for row in health:
 	suburb_health[row.key[0]][row.key[1]] = row.value
 
 ###save summary
