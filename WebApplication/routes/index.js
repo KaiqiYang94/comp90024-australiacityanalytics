@@ -291,7 +291,7 @@ router.get('/scenarios/health', function(req, res, next) {
             scores_neg_tweets.push(score.toFixed(2));
         }
         res.render('health', {
-            chart1: 'AURIN- Top 10 suburbs with highest poor self assessed health rate',
+            chart1: 'AURIN- Top 15 suburbs with highest poor self assessed health rate',
             suburbs_aurin: JSON.stringify(suburbs_aurin),
             scores_aurin: JSON.stringify(scores_aurin),
             chart2: 'TWEETS- Top 15 suburbs with highest positive rate of health',

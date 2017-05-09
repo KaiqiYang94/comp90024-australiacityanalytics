@@ -22,27 +22,21 @@
       <hr/>
       <h3>AURIN Data</h3>
 
-      <ul>
+    
         
-        <li style="width:800px; height:450px;">
+        <div style="width:800px; height:450px;">
         <canvas id="chart1"></canvas>
-        </li>
-        <li style="width:800px; height:450px;">
+        </div>
+        <div style="width:800px; height:450px;">
         <canvas id="chart2"></canvas>
-        </li>
+        </div>
 
-      </ul>
+
       <hr/>
       <h3> Tweets Data Analysis</h3>
-      <ul>
-        
-  
-        <li style="width:800px; height:450px;">
+        <div style="width:800px; height:450px;">
         <canvas id="chart3"></canvas>
-        </li>
-
-
-      </ul>
+        </div>
 
       <hr/>
       <h3>Data show </h3>
@@ -84,49 +78,59 @@ var chart1 = new Chart(ctx1, {
             label: chart1,
             data: scor_num,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.8)',
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 206, 86, 0.8)',
-                'rgba(75, 192, 192, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
-                                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)'
+
             ],
             borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
-                                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)'
+
             ],
             borderWidth: 1
         }]
     },
     options: {
+        legend: {labels:{fontColor:"white", fontSize: 14}},
         scales: {
+            xAxes: [{
+                ticks: {
+                    fontColor: "white" ,
+                    autoSkip: false
+                }
+            }],
             yAxes: [{
                 ticks: {
                     beginAtZero:false,
-                    min: 1100,
-                    max: 1300
+                    min: 1150,
+                    max: 1250,
+                    fontColor: "white"   
                 }
             }]
         }
@@ -142,54 +146,66 @@ var chart2 = new Chart(ctx2, {
             label: chart2,
             data: scor_num2,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.8)',
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 206, 86, 0.8)',
-                'rgba(75, 192, 192, 0.8)',
-                'rgba(153, 102, 255, 0.8)',
-                                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)'
+
             ],
             borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
-                                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)'
+
             ],
             borderWidth: 1
         }]
     },
     options: {
+        legend: {labels:{fontColor:"white", fontSize: 14}},
         scales: {
+            xAxes: [{
+                ticks: {
+                    fontColor: "white" ,
+                    autoSkip: false
+                }
+            }],
             yAxes: [{
                 ticks: {
                     beginAtZero:false,
                     min: 850,
-                    max: 900
+                    max: 900,
+                    fontColor: "white"   
                 }
             }]
         }
     }
 });
+
+
 var ctx3 = document.getElementById("chart3");
 var chart3 = new Chart(ctx3, {
     type: 'bar',
@@ -199,47 +215,57 @@ var chart3 = new Chart(ctx3, {
             label: chart3,
             data: scor_num3,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.8)',
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 206, 86, 0.8)',
-                'rgba(75, 192, 192, 0.8)',
-                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
-                                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)',
                 'rgba(153, 102, 255, 0.8)'
+
             ],
             borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
-                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(153, 102, 255, 1)'
+
             ],
             borderWidth: 1
         }]
     },
     options: {
+        legend: {labels:{fontColor:"white", fontSize: 14}},
         scales: {
+            xAxes: [{
+                ticks: {
+                    fontColor: "white" ,
+                    autoSkip: false
+                }
+            }],
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false,
+                    fontColor: "white"   
                 }
             }]
         }
