@@ -39,11 +39,21 @@ class BotoController:
                                             security_groups=sGroup,placement='melbourne')
         self.addTag(r.instances[0],'Name','Server')
         self.addTag(r.instances[0],'Type','server')
+
     def createSpark(self,key,sGroup): #create server node with key
         r = self.ec2_conn.run_instances('ami-00003b2e',key_name=key,instance_type='m2.large',
                                             security_groups=sGroup,placement='melbourne')
         self.addTag(r.instances[0],'Name','Spark')
         self.addTag(r.instances[0],'Type','spark')
+
+    def createSnapshot(self,volume_id,time): #create snapshot for volume
+        self.ec2_conn.create_snapshot(volume_id,str(volume_id) + str(time))
+        print 'Snapshot is created for volume ' + str(volume_id)
+
+    def recoveryVolume(self,snapshot_id,instance_id):
+        s = self.ec2_conn.get_all_snapshots([snapshot_id])
+        new_vol = s.create_volume('melbourne-np')
+        self.ec2_conn.attach_volume(new_vol.id,instance_id,'/dev/vdd')
 
     def deleteAll(self): #delete all instances, volumes and Snapshots
         v = self.ec2_conn.get_all_volumes()
@@ -64,11 +74,23 @@ class BotoController:
             self.ec2_conn.terminate_instances(i.instances[0].id)
             print 'Instance',i.instances[0].id,'is terminated.'
 
-    def deleteSnapshots(self): #delete Snapshots
-        snaps = self.ec2_conn.get_all_snapshots()
-        for e in snaps:
-            self.ec2_conn.delete_snapshot(e.id)
-            print 'Snapshot',e.id,'is deleted.'
+    def deleteSnapshots(self, id): #delete Snapshots
+        self.ec2_conn.delete_snapshot(id)
+        print 'Snapshot',id,'is deleted.'
+
+    def deleteInstance(self,id): #delte Instance
+        self.ec2_conn.terminate_instances(id)
+        print 'Instance',id,'is terminated.'
+
+    def deleteVolume(self,id):
+        v = self.ec2_conn.get_all_volumes([id])
+        while v.attachment_state() != None:
+            time.sleep(1)
+            print v.attachment_state()
+            v.update()
+        print 'Volume',e.id, 'is detached.'
+        self.ec2_conn.delete_volume(id)
+
     def exportInventoryFile(self): #create inventory file for ansible
         f = file('ansibleinventory.ini','w')
         r = self.ec2_conn.get_all_instances()
