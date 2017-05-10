@@ -63,6 +63,10 @@ def topic_extraction(txt):
 				topics.add(concept['form'])
 	return list(topics)	
 
+###################################################################
+# Name: Che Chi
+# Student No.: 823488
+# Email: cche2@student.unimelb.edu.au
 
 with open('./MapReduceFunctions/filter_tweets_with_coordinates_inside_melbourne.js') as f:
 	within_melb_map = f.read()
@@ -98,6 +102,7 @@ design_doc = {
     }
   }
 }
+###################################################################
 
 couch = couchdb.Server()
 db = couch['tweets']

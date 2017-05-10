@@ -1,4 +1,7 @@
 #This program is used to create views for DB dataset_ier
+# Name: Che Chi
+# Student No.: 823488
+# Email: cche2@student.unimelb.edu.au
 
 import couchdb
 
