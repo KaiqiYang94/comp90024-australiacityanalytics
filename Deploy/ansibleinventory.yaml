@@ -1,0 +1,14 @@
+[dbs]
+ubuntu@115.146.93.183
+ubuntu@115.146.93.6
+ubuntu@115.146.93.67
+
+[server]
+ubuntu@115.146.95.134
+
+[stream]
+ubuntu@115.146.93.67
+[search]
+ubuntu@115.146.93.6
+[searchTopic]
+ubuntu@115.146.93.183

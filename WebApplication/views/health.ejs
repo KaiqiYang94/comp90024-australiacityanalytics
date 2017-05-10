@@ -1,0 +1,265 @@
+<% include ./layout %>
+
+<div class="container-fluid">
+
+
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <h4>Scenarios</h4>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/scenarios">Life Satisfaction</a></li>
+        
+        <li><a href="/scenarios/ieo">Education VS Vulgar Words</a></li>
+        <li><a href="/scenarios/ier">Wealth VS Trump</a></li>
+        <li class="active"><a href="#">Poor Health</a></li>
+        
+        <li><a href="/scenarios/volunteer">Volunteer Work</a></li>
+        
+      </ul><br/>
+    </div>
+    
+
+    <div class="col-sm-9">
+      <h2>Melbourn residents' Self-Assessed Health Condition Anaysis</h2>
+      <hr/>
+      <h3>Aurin Data</h3>
+
+      <div style="width:800px; height:450px;">
+      <canvas id="chart1"></canvas>
+        </div>
+      <hr/>
+      <h3> Tweets Data Analysis</h3>
+          <div style="width:800px; height:450px;">
+        <canvas id="chart2"></canvas>
+        </div>
+        <div style="width:800px; height:450px;">
+        <canvas id="chart3"></canvas>
+        </div>
+
+      <hr/>
+      <h3>Data show </h3>
+      <h4><%= chart1 %></h4>
+      <p><%= suburbs_aurin %></p>
+      <p><%= scores_aurin %></p>
+      <h4><%= chart2 %></h4>
+      <p><%= suburb_pos_tweets %></p>
+      <p><%= scores_pos_tweets %></p>
+      <h4><%= chart3 %></h4>
+      <p><%= suburb_neg_tweets %></p>
+      <p><%= scores_neg_tweets %></p>
+
+      <br/><br/>
+    </div>
+  </div>
+</div>
+
+<script type='text/javascript'>
+//read all data 
+var scor_num = <%- (scores_aurin) %>
+var suburbs = <%- suburbs_aurin %>
+var chart1 = <%- JSON.stringify(chart1) %>
+
+var scor_num2 = <%- (scores_pos_tweets) %>
+var suburbs2 = <%- suburb_pos_tweets %>
+var chart2 = <%- JSON.stringify(chart2) %>
+
+var scor_num3 = <%- (scores_neg_tweets) %>
+var suburbs3 = <%- suburb_neg_tweets %>
+var chart3 = <%- JSON.stringify(chart3) %>
+
+var ctx1 = document.getElementById("chart1");
+var chart1 = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+        labels: suburbs,
+        datasets: [{
+            label: chart1,
+            data: scor_num,
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        legend: {labels:{fontColor:"white", fontSize: 14}},
+        scales: {
+            xAxes: [{
+                ticks: {
+                    fontColor: "white" ,
+                    autoSkip: false
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false,
+                    min:20,
+                    max:30,
+                    fontColor: "white"   
+                }
+            }]
+        }
+    }
+});
+
+var ctx2 = document.getElementById("chart2");
+var chart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: suburbs2,
+        datasets: [{
+            label: chart2,
+            data: scor_num2,
+           backgroundColor: [
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        legend: {labels:{fontColor:"white", fontSize: 14}},
+        scales: {
+            xAxes: [{
+                ticks: {
+                    fontColor: "white" ,
+                    autoSkip: false
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false,
+            
+                    fontColor: "white"   
+                }
+            }]
+        }
+    }
+});
+
+var ctx3 = document.getElementById("chart3");
+var chart3 = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: suburbs3,
+        datasets: [{
+            label: chart3,
+            data: scor_num3,
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(75, 192, 192, 0.8)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        legend: {labels:{fontColor:"white", fontSize: 14}},
+        scales: {
+            xAxes: [{
+                ticks: {
+                    fontColor: "white" ,
+                    autoSkip: false
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false,
+       
+                    fontColor: "white"   
+                }
+            }]
+        }
+    }
+});
+</script>

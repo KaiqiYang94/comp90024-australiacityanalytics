@@ -9,6 +9,6 @@ f.close()
 botocontroller = BotoController(d['access_key_id'][0],d['secret_access_key'][0])#initialize
 botocontroller.deleteAll()#delete all instance and volumes on Cloud
 botocontroller.createDB(d['dbNumber'][0],d['dbKey'][0],d['dbSecurityGroups'])#create db
-botocontroller.createServer(d['serverKey'],d['serverSecurityGroups'])#create server
-botocontroller.createSpark(d['sparkKey'],d['sparkSecurityGroups'])#create spark
+botocontroller.createServer(d['serverKey'][0],d['serverSecurityGroups'])#create server
+# botocontroller.createSpark(d['sparkKey'],d['sparkSecurityGroups'])#create spark
 botocontroller.exportInventoryFile()#create ansible inventory file

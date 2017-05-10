@@ -1,2 +1,6 @@
 
 *.pyc
+/WebApplication/node_modules
+
+*.retry
+~*.docx

@@ -1,0 +1,37 @@
+# To execute :
+# ansible-playbook InstallCouchdb.yml  -i ansibleinventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
+---
+- hosts: server
+  vars:
+    http_port: 80
+    max_clients: 200
+  tasks:
+      - name: stop all
+        ignore_errors: True
+        shell: pm2 delete www
+
+      - name: remove old version
+        ignore_errors: True
+        sudo: yes
+        shell: rm -r comp90024-australiacityanalytics
+
+      - name: Install the package "git"
+        sudo: yes
+        apt:
+          name: git
+          state: present
+
+      - name: Get the source code from git
+        shell: git clone https://kaiqiypublic:kaiqiypublicpw@bitbucket.org/xingh1/comp90024-australiacityanalytics.git
+
+      - name: install dependencies
+        shell: cd comp90024-australiacityanalytics/WebApplication && npm install
+
+      # There is some thing wrong with the pm2 framework, should trigger manully
+      # - name: run website
+      #   sudo: yes
+      #   shell: pm2 start comp90024-australiacityanalytics/WebApplication/bin/www
+
+...
+
+

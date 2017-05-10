@@ -1,0 +1,76 @@
+# To execute :
+# ansible-playbook installApach.yml  -i inventory.yaml --private-key /Users/KaiqiYang/Documents/MasterCourse/Cloud/Assignment2/cloud.key
+---
+- hosts: server
+  vars:
+    http_port: 80
+    max_clients: 200
+  # remote_user: root
+  tasks:
+      - debug: var=ansible_all_ipv4_addresses
+      - debug: var=ansible_default_ipv4.address
+      - name: enable clustering
+        shell: >
+          curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "enable_cluster", "bind_address":"0.0.0.0", "username": "admin", "password":"password", "port": 5984, "remote_node": "{{ item.split('@')[1] }}", "remote_current_user": "admin", "remote_current_password": "password" }'
+        with_items: 
+          - "{{ groups['dbs'] }}"
+
+      - name: add nodes
+        uri:
+          url: "http://127.0.0.1:5986/_nodes/couchdb@{{ item.split('@')[1] }}"
+          method: PUT
+          user: admin
+          password: password
+          body: "{}"
+          body_format: json
+          status_code: 201
+          force_basic_auth: yes
+          headers:
+            Content-Type: "application/json"
+
+        with_items: 
+          - "{{ groups['dbs'] }}"
+
+      - name: finish clustering
+        shell: |
+          curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/_cluster_setup -d '{"action": "finish_cluster"}'  > output.txt
+
+      - name: Install nginx
+        ignore_errors: True
+        sudo: yes
+        shell: apt-get install nginx
+
+      - name: configure default file 
+        sudo: yes
+        shell: rm /etc/nginx/sites-available/default
+
+      - name: configure default file 
+        sudo: yes
+        shell: touch /etc/nginx/sites-available/default
+
+      - name: add content to the default
+        sudo: yes
+        shell: |
+          echo "server {" >> /etc/nginx/sites-available/default
+          echo "    listen 80;" >> /etc/nginx/sites-available/default
+          echo "    server_name {{ ansible_default_ipv4.address }};" >> /etc/nginx/sites-available/default
+          echo "    location / {" >> /etc/nginx/sites-available/default
+          echo "        proxy_pass http://{{ ansible_default_ipv4.address }}:3000;" >> /etc/nginx/sites-available/default
+          echo "        proxy_http_version 1.1;" >> /etc/nginx/sites-available/default
+          echo "        proxy_set_header Upgrade \$http_upgrade;" >> /etc/nginx/sites-available/default
+          echo "        proxy_set_header Connection 'upgrade';" >> /etc/nginx/sites-available/default
+          echo "        proxy_set_header Host \$host;" >> /etc/nginx/sites-available/default
+          echo "        proxy_cache_bypass \$http_upgrade;" >> /etc/nginx/sites-available/default
+          echo "    }" >> /etc/nginx/sites-available/default
+          echo "}" >> /etc/nginx/sites-available/default
+
+      - name: restart nginx
+        sudo: yes
+        shell: service nginx restart
+
+      - name: allow nginx to pass firewall
+        sudo: yes
+        shell: ufw allow 'Nginx HTTP'
+...
+
+

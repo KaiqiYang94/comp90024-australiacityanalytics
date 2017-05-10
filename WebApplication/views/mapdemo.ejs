@@ -1,0 +1,97 @@
+
+<% include ./layout %>
+
+<div id="googleMap" style="width:100%;height:400px;"></div>
+
+
+<p><%= all_data %></p>
+
+<script>
+
+    var raw = <%- JSON.stringify(all_data) %>
+    var all_data = JSON.parse(raw);
+
+
+
+	function myMap() {
+	var mapProp= {
+	          center: {lat: -37.8141, lng: 144.9633},
+	          zoom: 11,
+	          // mapTypeId: google.maps.MapTypeId.SATELLITE
+	};
+	var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	map.data.loadGeoJson('http://data.gov.au/geoserver/vic-suburb-locality-boundaries-psma-administrative-boundaries/wfs?request=GetFeature&typeName=af33dd8c_0534_4e18_9245_fc64440f742e&outputFormat=json');
+	// map.data.loadGeoJson('/VICSuburbs.json');
+
+    map.data.setStyle(function(feature) {
+      var color = 'gray';
+      if (feature.getProperty('isColorful')) {
+        color = 'yellow';
+      }
+      return /** @type {google.maps.Data.StyleOptions} */({
+        fillColor: color,
+        strokeColor: color,
+        strokeWeight: 2
+      });
+    });
+
+    map.data.addListener('mouseover', function(event) {
+  		map.data.revertStyle();
+      	map.data.overrideStyle(event.feature, {strokeWeight: 8});
+    });
+
+    map.data.addListener('mouseout', function(event) {
+      	map.data.revertStyle();
+    });
+
+  	var infoWindow;
+
+    infoWindow = new google.maps.InfoWindow;
+
+	map.data.addListener('click', function (event) {
+		if(event.feature.getProperty('isColorful')) 
+		{
+			event.feature.setProperty('isColorful', false);
+		}
+		else
+		{
+			event.feature.setProperty('isColorful', true);	
+		}
+	    var suburb = event.feature.getProperty('vic_loca_2');
+	    console.log(" The name of the suburb is " + suburb);
+
+        var suburb_lf;
+        var suburb_ieo;
+        var suburb_ier;
+        var suburb_tweets;
+
+        for (var ele in all_data) {
+           
+                if (all_data[ele]['name'] == suburb) {
+                   console.log('-------'+all_data[ele]['name']);
+                   suburb_lf = all_data[ele]['lf_avg'];
+                   suburb_ieo = all_data[ele]['ieo_avg'];
+                   suburb_ier = all_data[ele]['ier_avg'];
+                   suburb_tweets = all_data[ele]['tweets_avg'];
+                }
+            }
+
+        // Replace the info window's content and position.
+        infoWindow.setContent("<p class='map-popup-content' > The name of the suburb is  " + suburb 
+            +" <br/>  life satisfaction is "+ suburb_lf 
+            +" <br/>  Education & Occupation is "+ suburb_ieo 
+            +" <br/>  Wealth Level is "+ suburb_ier 
+            +" <br/>  Tweets average attitude is "+ suburb_tweets
+            +"</p>");
+        infoWindow.setPosition(event.latLng);
+
+        infoWindow.open(map);
+
+	});
+
+	}
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFTcYUCRQyw9P2b-h-_oFyO4Pgr4VOB3E&amp;callback=myMap"></script>
+
