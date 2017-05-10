@@ -12,14 +12,16 @@
         <li><a href="/scenarios/ieo">Education VS Vulgar Words</a></li>
         <li class="active"><a href="#">Wealth VS Trump</a></li>
        
-        <li><a href="/scenarios/health">Poor Health</a></li>
+        <li><a href="/scenarios/health">Self-Assessed Health</a></li>
         <li><a href="/scenarios/volunteer">Volunteer Work</a></li>
       </ul><br/>
     </div>
 
 
     <div class="col-sm-9">
-      <h2>Melbourne Residents' Wealth Analysis</h2>
+      <h3>Melbourne Residents' Wealth Condition </h3>
+      <h2> VS</h2>
+      <h3> Favorability of Donald Trump Analysis</h3>
       <hr/>
       <h3>Aurin Data</h3>
         <div style="width:800px; height:450px;">
@@ -191,6 +193,8 @@ var chart2 = new Chart(ctx2, {
             yAxes: [{
                 ticks: {
                     beginAtZero:false,
+                    min:0,
+                    max:1,
                     fontColor: "white"   
                 }
             }]
@@ -255,6 +259,8 @@ var chart3 = new Chart(ctx3, {
             yAxes: [{
                 ticks: {
                     beginAtZero:false,
+                    min:0,
+                    max:1,
                     fontColor: "white"   
                 }
             }]

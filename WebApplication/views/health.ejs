@@ -11,7 +11,7 @@
         
         <li><a href="/scenarios/ieo">Education VS Vulgar Words</a></li>
         <li><a href="/scenarios/ier">Wealth VS Trump</a></li>
-        <li class="active"><a href="#">Poor Health</a></li>
+        <li class="active"><a href="#">Self-Assessed Health</a></li>
         
         <li><a href="/scenarios/volunteer">Volunteer Work</a></li>
         
@@ -192,6 +192,8 @@ var chart2 = new Chart(ctx2, {
             yAxes: [{
                 ticks: {
                     beginAtZero:false,
+                    min:0,
+                    max:1,
             
                     fontColor: "white"   
                 }
@@ -257,6 +259,8 @@ var chart3 = new Chart(ctx3, {
             yAxes: [{
                 ticks: {
                     beginAtZero:false,
+                    min:0,
+                    max:1,
        
                     fontColor: "white"   
                 }
