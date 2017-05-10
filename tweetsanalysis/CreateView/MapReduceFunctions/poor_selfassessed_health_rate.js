@@ -1,3 +1,12 @@
+// -------------------------------
+// Team 24
+// Kaiqi Yang 729687
+// Xing Hu 733203
+// Ziyuan Wang 735953
+// Chi Che 823488
+// Yanqin Jin 787723
+// -------------------------------
+
 //db: dataset_self_assessed_health
 //design_doc: health_analysis
 //view: poor_selfassessed_health_rate
