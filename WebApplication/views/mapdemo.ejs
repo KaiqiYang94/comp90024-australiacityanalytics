@@ -68,7 +68,7 @@
         for (var ele in all_data) {
            
                 if (all_data[ele]['name'] == suburb) {
-                   console.log('-------'+all_data[ele]['name']);
+                  
                    suburb_lf = all_data[ele]['lf_avg'];
                    suburb_ieo = all_data[ele]['ieo_avg'];
                    suburb_ier = all_data[ele]['ier_avg'];
@@ -76,13 +76,13 @@
                 }
             }
 
-        // Replace the info window's content and position.
-        infoWindow.setContent("<p class='map-popup-content' > The name of the suburb is  " + suburb 
-            +" <br/>  life satisfaction is "+ suburb_lf 
-            +" <br/>  Education & Occupation is "+ suburb_ieo 
-            +" <br/>  Wealth Level is "+ suburb_ier 
-            +" <br/>  Tweets average attitude is "+ suburb_tweets
-            +"</p>");
+        var content = "<p class='map-popup-content' > The name of the suburb is  " + suburb
+        if(suburb_lf != null)  content += " <br/>  life satisfaction is "+ suburb_lf 
+        if(suburb_ieo != null) content += " <br/>  Education & Occupation is "+ suburb_ieo 
+        if(suburb_ier != null) content += " <br/>  Wealth Level is "+ suburb_ier 
+        if(suburb_tweets != null) content += " <br/>  Tweets average attitude is "+ suburb_tweets
+        infoWindow.setContent(content+"</p>")
+
         infoWindow.setPosition(event.latLng);
 
         infoWindow.open(map);
