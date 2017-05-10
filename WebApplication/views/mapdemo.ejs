@@ -1,11 +1,11 @@
 
 <% include ./layout %>
 
-<div id="googleMap" style="width:100%;height:400px;"></div>
+<div id="googleMap" style="width:96%;height:600px;margin-left:20px;margin-right:50px"></div>
 
-
+<div style="display:none">
 <p><%= all_data %></p>
-
+</div>
 <script>
 
     var raw = <%- JSON.stringify(all_data) %>
@@ -37,7 +37,7 @@
 
     map.data.addListener('mouseover', function(event) {
   		map.data.revertStyle();
-      	map.data.overrideStyle(event.feature, {strokeWeight: 8});
+      	map.data.overrideStyle(event.feature, {strokeWeight: 4});
     });
 
     map.data.addListener('mouseout', function(event) {
