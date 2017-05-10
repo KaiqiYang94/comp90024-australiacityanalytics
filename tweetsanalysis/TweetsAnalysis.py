@@ -61,12 +61,12 @@ def getSuburb(lat, lon, key):
     components = j['results'][0]['address_components']
     country = state = suburb = None
     for c in components:
-		if "country" in c['types']:
-		    country = c['long_name']
-		if "administrative_area_level_1" in c['types']:
-		    state = c['long_name']
-		if "locality" in c['types']:
-		    suburb = c['long_name']
+    	if "country" in c['types']:
+    		country = c['long_name']
+    	if "administrative_area_level_1" in c['types']:
+    		state = c['long_name']
+    	if "locality" in c['types']:
+    		suburb = c['long_name']
     return suburb, state, country
 	
 def text_sentiment_analysis(text, key):
